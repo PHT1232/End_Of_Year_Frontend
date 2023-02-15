@@ -2,6 +2,7 @@ import { Component, Injector } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
+import {AppComponentBase} from '@shared/app-component-base';
 import {
   PagedListingComponentBase,
   PagedRequestDto
@@ -14,6 +15,7 @@ import {
 import { CreateUserDialogComponent } from './create-user/create-user-dialog.component';
 import { EditUserDialogComponent } from './edit-user/edit-user-dialog.component';
 import { ResetPasswordDialogComponent } from './reset-password/reset-password.component';
+import { PermissionCheckerService } from 'abp-ng2-module';
 
 class PagedUsersRequestDto extends PagedRequestDto {
   keyword: string;
@@ -33,7 +35,7 @@ export class UsersComponent extends PagedListingComponentBase<UserDto> {
   constructor(
     injector: Injector,
     private _userService: UserServiceProxy,
-    private _modalService: BsModalService
+    private _modalService: BsModalService,
   ) {
     super(injector);
   }
@@ -48,6 +50,14 @@ export class UsersComponent extends PagedListingComponentBase<UserDto> {
 
   public resetPassword(user: UserDto): void {
     this.showResetPasswordUserDialog(user.id);
+  }
+
+  checkIfAllowed(permissionName: string): boolean {
+      if (this.permission.isGranted(permissionName)) {
+        return true;
+      } else {
+        return false;
+      }
   }
 
   clearFilters(): void {
