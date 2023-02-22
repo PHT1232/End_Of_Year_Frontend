@@ -93,18 +93,38 @@ export class UsersComponent extends PagedListingComponentBase<UserDto> {
   }
 
   protected delete(user: UserDto): void {
-    abp.message.confirm(
-      this.l('UserDeleteWarningMessage', user.fullName),
-      undefined,
-      (result: boolean) => {
-        if (result) {
-          this._userService.delete(user.id).subscribe(() => {
-            abp.notify.success(this.l('SuccessfullyDeleted'));
-            this.refresh();
-          });
-        }
+    this.swal.fire({
+      title: 'Are you sure?',
+      text: 'User will be deleted',
+      showCancelButton: true,
+      confirmButtonColor: this.confirmButtonColor,
+      cancelButtonColor: this.cancelButtonColor,
+      cancelButtonText: 'Cancel',
+      confirmButtonText: 'Delete',
+      reverseButtons: this.ReverseButtons,
+      icon: 'warning',
+    })
+    .then((result) => {
+      if (result.value) {
+        this._userService.delete(user.id).subscribe(() => {
+          abp.notify.success(this.l('SuccessfullyDeleted'));
+          this.refresh();
+        });
       }
-    );
+    });
+
+    // abp.message.confirm(
+    //   this.l('UserDeleteWarningMessage', user.fullName),
+    //   undefined,
+    //   (result: boolean) => {
+    //     if (result) {
+    //       this._userService.delete(user.id).subscribe(() => {
+    //         abp.notify.success(this.l('SuccessfullyDeleted'));
+    //         this.refresh();
+    //       });
+    //     }
+    //   }
+    // );
   }
 
   private showResetPasswordUserDialog(id?: number): void {

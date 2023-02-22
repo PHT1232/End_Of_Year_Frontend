@@ -1,5 +1,6 @@
 import { AppComponentBase } from 'shared/app-component-base';
 import { Component, Injector, OnInit } from '@angular/core';
+import Swal from 'sweetalert2';
 
 export class PagedResultDto {
     items: any[];
@@ -19,7 +20,12 @@ export class PagedRequestDto {
     template: ''
 })
 export abstract class PagedListingComponentBase<TEntityDto> extends AppComponentBase implements OnInit {
-
+    swal = Swal;
+    confirmButtonColor = '#3085d6';
+    cancelButtonColor = '#d33';
+    cancelButtonText = 'No, cancel';
+    deleteButtonText = 'Yes, delete';
+    ReverseButtons = true;
     public pageSize = 10;
     public pageNumber = 1;
     public totalPages = 1;

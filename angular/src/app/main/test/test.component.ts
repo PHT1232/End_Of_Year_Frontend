@@ -33,12 +33,7 @@ export class TestComponent extends PagedListingComponentBase<TestDto> {
   keyword = '';
   tests: GetAllTestDto[] = [];
   totalCount: number;
-  swal = Swal;
-  confirmButtonColor = '#3085d6';
-  cancelButtonColor = '#d33';
-  cancelButtonText = 'No, cancel';
-  deleteButtonText = 'Yes, delete';
-  ReverseButtons = true;
+
 
   constructor(
     injector: Injector,
@@ -102,7 +97,7 @@ export class TestComponent extends PagedListingComponentBase<TestDto> {
             },
           })
       }
-    })
+    });
     // abp.message.confirm(
     //   this.l('Do you want to delete this ' + test.testVarible),
     //   undefined,
