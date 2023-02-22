@@ -26,7 +26,7 @@ class PagedTestRequestDto extends PagedRequestDto {
   styleUrls: ['./test.component.css'],
   animations: [appModuleAnimation()]
 })
-export class TestComponent extends AppComponentBase implements OnInit {
+export class TestComponent extends PagedListingComponentBase<TestDto> {
 
   keyword = '';
   tests: GetAllTestDto[] = [];
@@ -63,13 +63,7 @@ export class TestComponent extends AppComponentBase implements OnInit {
         this.showPaging(result, pageNumber);
       });
   }
-
-  getAllTest() {
-    this._testService.getAll(
-
-    )
-  }
-
+  
   delete(test: TestDto): void {
     abp.message.confirm(
       this.l('Do you want to delete this ' + test.testVarible),
