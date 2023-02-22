@@ -1,5 +1,5 @@
 import { Component, Injector, OnInit, ViewChild } from '@angular/core';
-import { finalize } from 'rxjs/operators';
+import { catchError, finalize } from 'rxjs/operators';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import {
@@ -15,6 +15,8 @@ import {
 import { CreateTestDialogComponent } from '@app/main/test/create-test-dialog/create-test-dialog.component';
 import { EditTestDialogComponent } from '@app/main/test/edit-test-dialog/edit-test-dialog.component';
 import { AppComponentBase } from '@shared/app-component-base';
+import Swal from 'sweetalert2';
+import { throwError } from 'rxjs';
 
 class PagedTestRequestDto extends PagedRequestDto {
   keyword: string;
@@ -31,6 +33,12 @@ export class TestComponent extends PagedListingComponentBase<TestDto> {
   keyword = '';
   tests: GetAllTestDto[] = [];
   totalCount: number;
+  swal = Swal;
+  confirmButtonColor = '#3085d6';
+  cancelButtonColor = '#d33';
+  cancelButtonText = 'No, cancel';
+  deleteButtonText = 'Yes, delete';
+  ReverseButtons = true;
 
   constructor(
     injector: Injector,
@@ -39,10 +47,6 @@ export class TestComponent extends PagedListingComponentBase<TestDto> {
   ) {
     super(injector);
    }
-
-  ngOnInit(): void {
-      
-  }
 
   list(
     request: PagedTestRequestDto,
@@ -63,25 +67,59 @@ export class TestComponent extends PagedListingComponentBase<TestDto> {
         this.showPaging(result, pageNumber);
       });
   }
-  
+
   delete(test: TestDto): void {
-    abp.message.confirm(
-      this.l('Do you want to delete this ' + test.testVarible),
-      undefined,
-      (result: boolean) => {
-        if (result) {
-          this._testService
-            .delete(test.testVarible)
-            .pipe(
-              finalize(() => {
-                abp.notify.success(this.l('SuccessfullyDeleted'));
-                this.refresh();
-              })
-            )
-            .subscribe(() => {});
-        }
+    this.swal.fire({
+      title: 'Are you sure?',
+      text: 'Test will be deleted',
+      showCancelButton: true,
+      confirmButtonColor: this.confirmButtonColor,
+      cancelButtonColor: this.cancelButtonColor,
+      cancelButtonText: 'Cancel',
+      confirmButtonText: 'Delete',
+      reverseButtons: this.ReverseButtons,
+      icon: 'warning',
+    })
+    .then((result) => {
+      if (result.value) {
+        this._testService.delete(test.testVarible).pipe(
+          catchError(err => {
+            return throwError(err);
+          }))
+          .subscribe({
+            next: () => {
+              abp.notify.success(this.l('Delete Successfully!'));
+              this.refresh();
+            },
+            error: (error) => {
+              console.log(error);
+              if (error.error && error.error.message) {
+                this.notify.error(error.error.message);
+              }
+            }, 
+            complete() {
+
+            },
+          })
       }
-    )
+    })
+    // abp.message.confirm(
+    //   this.l('Do you want to delete this ' + test.testVarible),
+    //   undefined,
+    //   (result: boolean) => {
+    //     if (result) {
+    //       this._testService
+    //         .delete(test.testVarible)
+    //         .pipe(
+    //           finalize(() => {
+    //             abp.notify.success(this.l('SuccessfullyDeleted'));
+    //             this.refresh();
+    //           })
+    //         )
+    //         .subscribe(() => {});
+    //     }
+    //   }
+    // )
   }
 
   createTest(): void {
