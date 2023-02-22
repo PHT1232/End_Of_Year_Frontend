@@ -5,15 +5,17 @@ import {
   EventEmitter,
   Output,
 } from '@angular/core';
+import { BsModalRef } from 'ngx-bootstrap/modal';
+import { AppComponentBase } from '@shared/app-component-base';
 import {
   RoleServiceProxy,
-  RoleDto,
+  TestServiceProxy,
+  TestDto,
   PermissionDto,
-  CreateRoleDto,
+  TestInput,
   PermissionDtoListResultDto
 } from '@shared/service-proxies/service-proxies';
-import { AppComponentBase } from '@shared/app-component-base';
-import { BsModalRef } from 'ngx-bootstrap/modal';
+import { forEach as _forEach, map as _map } from 'lodash-es';
 
 @Component({
   selector: 'app-create-test-dialog',
@@ -22,14 +24,16 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 })
 export class CreateTestDialogComponent extends AppComponentBase implements OnInit {
   saving = false;
-  role = new RoleDto();
+  test = new TestDto();
   permissions: PermissionDto[] = [];
   checkedPermissionsMap: { [key: string]: boolean } = {};
   defaultPermissionCheckedStatus = true;
 
+  @Output() onSave = new EventEmitter<any>();
+
   constructor(    
     injector: Injector,
-    private _roleService: RoleServiceProxy,
+    private _testService: TestServiceProxy,
     public bsModalRef: BsModalRef) { 
       super(injector)
     }
@@ -37,4 +41,21 @@ export class CreateTestDialogComponent extends AppComponentBase implements OnIni
   ngOnInit(): void {
   }
 
+  save(): void {
+    this.saving = true;
+
+    const test = new TestInput();
+    test.init(this.test);
+
+    this._testService.createTestManagement(test).subscribe(
+      () => {
+        this.notify.info(this.l('Saved Successfully'));
+        this.bsModalRef.hide();
+        this.onSave.emit();
+      },
+      () => {
+        this.saving = false;
+      }
+    )
+  }
 }

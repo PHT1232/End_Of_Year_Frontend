@@ -47,17 +47,20 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
             new MenuItem(
                 this.l('Test'),
                 '/app/test',
+                '',
                 'Pages.System.Test'
             ),
             new MenuItem(
                 this.l('Roles'),
                 '/app/roles',
-                'Pages.System'
+                '',
+                'Pages.Users'
             ),
             new MenuItem(
                 this.l('Users'),
                 '/app/users',
-                'Pages.System'
+                '',
+                'Pages.Users'
             ),
         ];
     }

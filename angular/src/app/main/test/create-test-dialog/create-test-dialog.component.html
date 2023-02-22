@@ -2,9 +2,10 @@
   class="form-horizontal"
   autocomplete="off"
   #createRoleForm="ngForm"
+  (ngSubmit)="save()"
 >
   <abp-modal-header
-    [title]="'CreateNewRole' | localize"
+    [title]="'CreateNewTest' | localize"
     (onCloseClick)="bsModalRef.hide()"
   ></abp-modal-header>
   <div class="modal-body">
@@ -12,18 +13,18 @@
       <tab [heading]="'Details' | localize" class="pt-3 px-2">
         <div class="form-group row required">
           <label class="col-md-3 col-form-label" for="name">
-            {{ "Name" | localize }}
+            {{ "Test variable" | localize }}
           </label>
           <div class="col-md-9">
             <input
-              type="text"
+              type="number"
               class="form-control"
-              name="name"
-              id="name"
+              name="testVarible"
+              id="testVarible"
               required
               minlength="2"
               maxlength="32"
-              [(ngModel)]="role.name"
+              [(ngModel)]="test.testVarible"
               #nameModel="ngModel"
               #nameEl
             />
@@ -32,64 +33,6 @@
               [controlEl]="nameEl"
             ></abp-validation-summary>
           </div>
-        </div>
-        <div class="form-group row required">
-          <label class="col-md-3 col-form-label" for="displayName">
-            {{ "DisplayName" | localize }}
-          </label>
-          <div class="col-md-9">
-            <input
-              type="text"
-              class="form-control"
-              name="displayName"
-              id="displayName"
-              required
-              minlength="2"
-              maxlength="32"
-              [(ngModel)]="role.displayName"
-              #displayNameModel="ngModel"
-              #displayNameEl
-            />
-            <abp-validation-summary
-              [control]="displayNameModel"
-              [controlEl]="displayNameEl"
-            ></abp-validation-summary>
-          </div>
-        </div>
-        <div class="form-group row mb-0">
-          <label class="col-md-3 col-form-label" for="description">
-            {{ "RoleDescription" | localize }}
-          </label>
-          <div class="col-md-9">
-            <textarea
-              type="text"
-              class="form-control"
-              name="description"
-              id="description"
-              [(ngModel)]="role.description"
-            >
-            </textarea>
-          </div>
-        </div>
-      </tab>
-      <tab [heading]="'Permissions' | localize" class="pt-3 px-2">
-        <div class="form-group row mb-0">
-          <ng-container *ngFor="let permission of permissions; let i = index">
-            <div class="col-md-6">
-              <div class="custom-control custom-checkbox">
-                <input
-                  type="checkbox"
-                  class="custom-control-input"
-                  [id]="'permission_' + i"
-                  [checked]="isPermissionChecked(permission.name)"
-                  (change)="onPermissionChange(permission, $event)"
-                />
-                <label class="custom-control-label" [for]="'permission_' + i">
-                  {{ permission.displayName }}
-                </label>
-              </div>
-            </div>
-          </ng-container>
         </div>
       </tab>
     </tabset>
