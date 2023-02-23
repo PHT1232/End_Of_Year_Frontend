@@ -55,23 +55,47 @@ export class RolesComponent extends PagedListingComponentBase<RoleDto> {
   }
 
   delete(role: RoleDto): void {
-    abp.message.confirm(
-      this.l('RoleDeleteWarningMessage', role.displayName),
-      undefined,
-      (result: boolean) => {
-        if (result) {
-          this._rolesService
-            .delete(role.id)
-            .pipe(
-              finalize(() => {
-                abp.notify.success(this.l('SuccessfullyDeleted'));
-                this.refresh();
-              })
-            )
-            .subscribe(() => {});
-        }
+    this.swal.fire({
+      title: 'Are you sure?',
+      text: 'Role will be deleted',
+      showCancelButton: true,
+      confirmButtonColor: this.confirmButtonColor,
+      cancelButtonColor: this.cancelButtonColor,
+      cancelButtonText: 'Cancel',
+      confirmButtonText: 'Delete',
+      reverseButtons: this.ReverseButtons,
+      icon: 'warning',
+    })
+    .then((result) => {
+      if (result.value) {
+        this._rolesService
+        .delete(role.id)
+        .pipe(
+          finalize(() => {
+            abp.notify.success(this.l('SuccessfullyDeleted'));
+            this.refresh();
+          })
+        )
+        .subscribe(() => {});
       }
-    );
+    });
+    // abp.message.confirm(
+    //   this.l('RoleDeleteWarningMessage', role.displayName),
+    //   undefined,
+    //   (result: boolean) => {
+    //     if (result) {
+    //       this._rolesService
+    //         .delete(role.id)
+    //         .pipe(
+    //           finalize(() => {
+    //             abp.notify.success(this.l('SuccessfullyDeleted'));
+    //             this.refresh();
+    //           })
+    //         )
+    //         .subscribe(() => {});
+    //     }
+    //   }
+    // );
   }
 
   createRole(): void {

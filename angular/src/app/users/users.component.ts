@@ -2,6 +2,7 @@ import { Component, Injector } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
+import {AppComponentBase} from '@shared/app-component-base';
 import {
   PagedListingComponentBase,
   PagedRequestDto
@@ -14,6 +15,7 @@ import {
 import { CreateUserDialogComponent } from './create-user/create-user-dialog.component';
 import { EditUserDialogComponent } from './edit-user/edit-user-dialog.component';
 import { ResetPasswordDialogComponent } from './reset-password/reset-password.component';
+import { PermissionCheckerService } from 'abp-ng2-module';
 
 class PagedUsersRequestDto extends PagedRequestDto {
   keyword: string;
@@ -33,7 +35,7 @@ export class UsersComponent extends PagedListingComponentBase<UserDto> {
   constructor(
     injector: Injector,
     private _userService: UserServiceProxy,
-    private _modalService: BsModalService
+    private _modalService: BsModalService,
   ) {
     super(injector);
   }
@@ -48,6 +50,14 @@ export class UsersComponent extends PagedListingComponentBase<UserDto> {
 
   public resetPassword(user: UserDto): void {
     this.showResetPasswordUserDialog(user.id);
+  }
+
+  checkIfAllowed(permissionName: string): boolean {
+      if (this.permission.isGranted(permissionName)) {
+        return true;
+      } else {
+        return false;
+      }
   }
 
   clearFilters(): void {
@@ -83,18 +93,38 @@ export class UsersComponent extends PagedListingComponentBase<UserDto> {
   }
 
   protected delete(user: UserDto): void {
-    abp.message.confirm(
-      this.l('UserDeleteWarningMessage', user.fullName),
-      undefined,
-      (result: boolean) => {
-        if (result) {
-          this._userService.delete(user.id).subscribe(() => {
-            abp.notify.success(this.l('SuccessfullyDeleted'));
-            this.refresh();
-          });
-        }
+    this.swal.fire({
+      title: 'Are you sure?',
+      text: 'User will be deleted',
+      showCancelButton: true,
+      confirmButtonColor: this.confirmButtonColor,
+      cancelButtonColor: this.cancelButtonColor,
+      cancelButtonText: 'Cancel',
+      confirmButtonText: 'Delete',
+      reverseButtons: this.ReverseButtons,
+      icon: 'warning',
+    })
+    .then((result) => {
+      if (result.value) {
+        this._userService.delete(user.id).subscribe(() => {
+          abp.notify.success(this.l('SuccessfullyDeleted'));
+          this.refresh();
+        });
       }
-    );
+    });
+
+    // abp.message.confirm(
+    //   this.l('UserDeleteWarningMessage', user.fullName),
+    //   undefined,
+    //   (result: boolean) => {
+    //     if (result) {
+    //       this._userService.delete(user.id).subscribe(() => {
+    //         abp.notify.success(this.l('SuccessfullyDeleted'));
+    //         this.refresh();
+    //       });
+    //     }
+    //   }
+    // );
   }
 
   private showResetPasswordUserDialog(id?: number): void {

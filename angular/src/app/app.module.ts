@@ -38,6 +38,9 @@ import { SidebarComponent } from './layout/sidebar.component';
 import { SidebarLogoComponent } from './layout/sidebar-logo.component';
 import { SidebarUserPanelComponent } from './layout/sidebar-user-panel.component';
 import { SidebarMenuComponent } from './layout/sidebar-menu.component';
+import { TestComponent } from './main/test/test.component';
+import { CreateTestDialogComponent } from './main/test/create-test-dialog/create-test-dialog.component';
+import { EditTestDialogComponent } from './main/test/edit-test-dialog/edit-test-dialog.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +70,10 @@ import { SidebarMenuComponent } from './layout/sidebar-menu.component';
     SidebarComponent,
     SidebarLogoComponent,
     SidebarUserPanelComponent,
-    SidebarMenuComponent
+    SidebarMenuComponent,
+    TestComponent,
+    CreateTestDialogComponent,
+    EditTestDialogComponent
   ],
   imports: [
     CommonModule,
