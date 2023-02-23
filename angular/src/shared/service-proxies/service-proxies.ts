@@ -2005,7 +2005,11 @@ export class TestServiceProxy {
                 return throwException("An unexpected server error occurred.", status, _responseText, _headers);
                 }));
             }
-            return _observableOf<void>(<any>null);
+        return _observableOf<void>(<any>null);
+    }
+
+    getTestForEdit(id: number | undefined): Observable<TestDto> {
+        
     }
 }
 

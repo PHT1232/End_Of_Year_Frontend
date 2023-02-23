@@ -35,6 +35,21 @@
           </div>
         </div>
       </tab>
+      <tab [heading]="'Upload' | localize" class="pt-3 px-2">
+        <div class="form-group row required">
+          <label class="col-md-3 col-form-label" for="name">
+            {{ "Test variable" | localize }}
+          </label>
+          <div class="col-md-9">
+            <ngx-dropzone (change)="onSelect($event)">
+              <ngx-dropzone-label>Kéo thả file mà bạn muốn upload vào</ngx-dropzone-label>
+              <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+                <ngx-dropzone-label>{{ f.name }}</ngx-dropzone-label>
+              </ngx-dropzone-preview>
+            </ngx-dropzone>
+          </div>
+        </div>
+      </tab>
     </tabset>
   </div>
   <abp-modal-footer

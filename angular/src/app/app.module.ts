@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientJsonpModule } from '@angular/common/http';
@@ -41,6 +41,7 @@ import { SidebarMenuComponent } from './layout/sidebar-menu.component';
 import { TestComponent } from './main/test/test.component';
 import { CreateTestDialogComponent } from './main/test/create-test-dialog/create-test-dialog.component';
 import { EditTestDialogComponent } from './main/test/edit-test-dialog/edit-test-dialog.component';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 @NgModule({
   declarations: [
@@ -89,6 +90,7 @@ import { EditTestDialogComponent } from './main/test/edit-test-dialog/edit-test-
     ServiceProxyModule,
     SharedModule,
     NgxPaginationModule,
+    NgxDropzoneModule
   ],
   providers: [],
   entryComponents: [
@@ -102,6 +104,9 @@ import { EditTestDialogComponent } from './main/test/edit-test-dialog/edit-test-
     CreateUserDialogComponent,
     EditUserDialogComponent,
     ResetPasswordDialogComponent,
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
   ],
 })
 export class AppModule {}
