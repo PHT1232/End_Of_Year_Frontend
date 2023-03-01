@@ -29,6 +29,37 @@ export class EditRoleDialogComponent extends AppComponentBase
   grantedPermissionNames: string[];
   checkedPermissionsMap: { [key: string]: boolean } = {};
 
+  public permissions1 = [
+    { label: 'User Management', 
+      data: 'Pages.Users', 
+      children: 
+      [{
+          label: 'View',
+          data: 'Pages.System.Users.View',
+      },
+      {
+          label: 'Add',
+          data: 'Pages.System.Users.Add',
+      }], 
+      expanded: true },
+    { label: 'Test Management', 
+      data: 'Pages.System.Test', 
+      children: 
+      [{
+          label: 'View',
+          data: 'Pages.System.Test.View',
+      },
+      {
+          label: 'Add',
+          data: 'Pages.System.Test.Add',
+      },
+      {
+          label: 'Delete',
+          data: 'Pages.System.Test.Delete',
+      }], 
+      expanded: true },
+  ];
+
   @Output() onSave = new EventEmitter<any>();
 
   constructor(
@@ -94,4 +125,6 @@ export class EditRoleDialogComponent extends AppComponentBase
       }
     );
   }
+
+
 }

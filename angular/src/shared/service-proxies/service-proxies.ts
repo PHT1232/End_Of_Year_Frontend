@@ -2008,9 +2008,9 @@ export class TestServiceProxy {
         return _observableOf<void>(<any>null);
     }
 
-    getTestForEdit(id: number | undefined): Observable<TestDto> {
+    // getTestForEdit(id: number | undefined): Observable<TestDto> {
         
-    }
+    // }
 }
 
 export class ApplicationInfoDto implements IApplicationInfoDto {

@@ -48,5 +48,36 @@ export class EditTestDialogComponent extends AppComponentBase implements OnInit 
 
   ngOnInit(): void {
   }
+  
+  save(): void {
+    this.saving = true;
 
+    const formData = new FormData();
+    for (const file of this.files) {
+      formData.append('file', file);
+    }
+    const test = new TestInput();
+    test.init(this.test);
+    this
+    this._testService.createTestManagement(test).subscribe(
+      () => {
+        this.notify.success(this.l('Saved Successfully'));
+        this.bsModalRef.hide();
+        this.onSave.emit();
+      },
+      () => {
+        this.saving = false;
+      }
+    )
+  }
+
+  onSelect(event) {
+    console.log(event);
+    this.files.push(...event.addedFiles);
+  }
+
+  onRemove(event) {
+    console.log(event);
+    this.files.splice(this.files.indexOf(event), 1);
+  }
 }
