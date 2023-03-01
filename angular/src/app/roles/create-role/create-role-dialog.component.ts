@@ -68,6 +68,7 @@ export class CreateRoleDialogComponent extends AppComponentBase
     const permissions: string[] = [];
     _forEach(this.checkedPermissionsMap, function (value, key) {
       if (value) {
+        console.error('new key: ' + key);
         permissions.push(key);
       }
     });

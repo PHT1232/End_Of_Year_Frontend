@@ -23,7 +23,7 @@ import { TestComponent } from './main/test/test.component';
                     { path: 'tenants', component: TenantsComponent, data: { permission: 'Pages.Tenants' }, canActivate: [AppRouteGuard] },
                     { path: 'about', component: AboutComponent, canActivate: [AppRouteGuard] },
                     { path: 'update-password', component: ChangePasswordComponent, canActivate: [AppRouteGuard] },
-                    { path: 'test', component: TestComponent, data: { permission: 'Pages.System.Test' } ,canActivate: [AppRouteGuard] }
+                    { path: 'test', component: TestComponent, data: { permission: 'Pages.System.Test.View' } ,canActivate: [AppRouteGuard] }
                 ]
             }
         ])

@@ -93,14 +93,15 @@ export class EditRoleDialogComponent extends AppComponentBase
     return _includes(this.grantedPermissionNames, permissionName);
   }
 
-  onPermissionChange(permission: PermissionDto, $event) {
-    this.checkedPermissionsMap[permission.name] = $event.target.checked;
+  onPermissionChange(permission: string, $event) {
+    this.checkedPermissionsMap[permission] = $event.target.checked;
   }
 
   getCheckedPermissions(): string[] {
     const permissions: string[] = [];
     _forEach(this.checkedPermissionsMap, function (value, key) {
       if (value) {
+        console.error('new key: ' + key);
         permissions.push(key);
       }
     });
@@ -108,6 +109,7 @@ export class EditRoleDialogComponent extends AppComponentBase
   }
 
   save(): void {
+    // debugger;
     this.saving = true;
 
     const role = new RoleDto();
