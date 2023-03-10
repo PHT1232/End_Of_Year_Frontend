@@ -27,7 +27,7 @@ import { CreateStorageComponent } from './main/storage/create-storage/create-sto
                     { path: 'update-password', component: ChangePasswordComponent, canActivate: [AppRouteGuard] },
                     { path: 'test', component: TestComponent, data: { permission: 'Pages.System.Test' } ,canActivate: [AppRouteGuard] },
                     { path: 'storage', component: StorageComponent, data: { permission: 'Pages.System.Storage.View'} , canActivate: [AppRouteGuard] },
-                    { path: 'storage/create', component: CreateStorageComponent, data: { permission: 'Pages.System.Storage.View'} , canActivate: [AppRouteGuard] }
+                    { path: 'storage/create', component: CreateStorageComponent, data: { permission: 'Pages.System.Storage.Add'} , canActivate: [AppRouteGuard] }
                 ]
             }
         ])

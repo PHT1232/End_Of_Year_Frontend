@@ -9,14 +9,20 @@
       <tab [heading]="'Details' | localize" class="pt-3 px-2">
         <div class="form-group row required">
           <label class="col-md-3 col-form-label" for="name">
-            {{ "Test variable" | localize }}
+            {{ "Mã kho" | localize }}
+          </label>
+          <label class="col-md-3 col-form-label" for="name">
+            {{ "Tên kho" | localize }}
+          </label>
+          <label class="col-md-3 col-form-label" for="name">
+            {{ "Địa chỉ" | localize }}
           </label>
           <div class="col-md-9">
             <input
               type="text"
               class="form-control"
-              name="testVarible"
-              id="testVarible"
+              name="storageCode"
+              id="storageCode"
               required
               minlength="2"
               maxlength="32"
@@ -27,8 +33,8 @@
             <input
               type="text"
               class="form-control"
-              name="testVarible"
-              id="testVarible"
+              name="storageName"
+              id="storageName"
               required
               minlength="2"
               maxlength="32"
@@ -39,8 +45,8 @@
             <input
               type="number"
               class="form-control"
-              name="testVarible"
-              id="testVarible"
+              name="address"
+              id="address"
               required
               minlength="2"
               maxlength="32"
