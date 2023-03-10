@@ -20,6 +20,7 @@ import { Router } from '@angular/router';
 })
 export class CreateStorageComponent extends AppComponentBase implements OnInit {
   saving = false;
+  storage = new StorageInput();
   permissions: PermissionDto[] = [];
   checkedPermissionMap: { [key: string]: boolean } = {};
   defaultPermissionCheckedStatus = true;
@@ -47,7 +48,7 @@ export class CreateStorageComponent extends AppComponentBase implements OnInit {
         this.notify.info(this.l('Saved Successfully'));
         this.onSave.emit();
         this._router.navigate(['app/storage']);
-      }
+      },
       () => {
         this.saving = false;
       }
