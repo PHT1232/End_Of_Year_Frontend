@@ -27,6 +27,37 @@ export class CreateRoleDialogComponent extends AppComponentBase
   checkedPermissionsMap: { [key: string]: boolean } = {};
   defaultPermissionCheckedStatus = true;
 
+  public permissions1 = [
+    { label: 'User Management', 
+      data: 'Pages.Users', 
+      children: 
+      [{
+          label: 'View',
+          data: 'Pages.System.Users.View',
+      },
+      {
+          label: 'Add',
+          data: 'Pages.System.Users.Add',
+      }], 
+      expanded: true },
+    { label: 'Test Management', 
+      data: 'Pages.System.Test', 
+      children: 
+      [{
+          label: 'View',
+          data: 'Pages.System.Test.View',
+      },
+      {
+          label: 'Add',
+          data: 'Pages.System.Test.Add',
+      },
+      {
+          label: 'Delete',
+          data: 'Pages.System.Test.Delete',
+      }], 
+      expanded: true },
+  ];
+
   @Output() onSave = new EventEmitter<any>();
 
   constructor(

@@ -3,13 +3,13 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-6">
-                    <h1>{{ "Users" | localize }}</h1>
+                    <h1>{{ "Người dùng" | localize }}</h1>
                 </div>
                 <div class="col-6 text-right">
                     <a href="javascript:;" class="btn bg-blue" *ngIf="isGranted('Pages.System.Test') == true" (click)="createUser()">
                         <i class="fa fa-plus-square"></i>
                         
-                        {{ "Create" | localize }}
+                        {{ "Thêm" | localize }}
                     </a>
                 </div>
             </div>
@@ -142,9 +142,9 @@
                             <thead class="bg-light">
                             <tr>
                                 <th>{{ "UserName" | localize }}</th>
-                                <th>{{ "FullName" | localize }}</th>
-                                <th>{{ "EmailAddress" | localize }}</th>
-                                <th>{{ "IsActive" | localize }}</th>
+                                <th>{{ "Tên đầy đủ" | localize }}</th>
+                                <th>{{ "Email" | localize }}</th>
+                                <th>{{ "Đang được dùng" | localize }}</th>
                                 <th style="width: 310px;">{{ "Actions" | localize }}</th>
                             </tr>
                             </thead>

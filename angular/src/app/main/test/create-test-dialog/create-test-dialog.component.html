@@ -4,10 +4,6 @@
   #createRoleForm="ngForm"
   (ngSubmit)="save()"
 >
-  <abp-modal-header
-    [title]="'CreateNewTest' | localize"
-    (onCloseClick)="bsModalRef.hide()"
-  ></abp-modal-header>
   <div class="modal-body">
     <tabset>
       <tab [heading]="'Details' | localize" class="pt-3 px-2">

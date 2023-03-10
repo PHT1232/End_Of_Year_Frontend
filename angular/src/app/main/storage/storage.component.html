@@ -1,0 +1,154 @@
+<div [@routerTransition]>
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-6">
+            <h1>{{ "Kho" | localize }}</h1>
+          </div>
+          <div class="col-6 text-right">
+            <a href="javascript:;"
+              class="btn bg-blue"
+              routerLink="create">
+              <i class="fa fa-plus-square"></i>
+              {{ "Thêm" | localize }}
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="content px-2">
+      <div class="container-fluid">
+        <div class="card">
+          <div class="card-header">
+            <div class="row">
+              <div class="col-md-6">&emsp;</div>
+              <div class="col-md-6">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <button type="button"
+                      class="btn bg-blue"
+                      (click)="getDataPage(1)">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                  <input type="text"
+                    class="form-control"
+                    name="keyword"
+                    [placeholder]="'SearchWithThreeDot' | localize"
+                    [(ngModel)]="keyword"
+                    (keyup.enter)="getDataPage(1)" />
+                </div>
+              </div>
+            </div>
+            <div class="card mb-0 mt-2">
+              <div class="card-body">
+                  <form class="form-horizontal">
+                      <div class="row">
+                          <div class="col-md-6">
+                              <div class="form-group row mb-0">
+                                  <div class="col pt-2">
+                                      <select class="form-control" aria-label="Default select example">
+                                        <option selected>Open this select menu</option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                      </select>
+                                  </div>
+                                  <div class="col pt-2">
+                                      <select class="form-control" aria-label="Default select example">
+                                        <option selected>Open this select menu</option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                      </select>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-striped table-bordered"
+                [busy]="isTableLoading">
+                <thead class="bg-light">
+                  <tr>
+                    <th>{{ "Mã kho" | localize }}</th>
+                    <th>{{ "Tên kho" | localize }}</th>
+                    <th>{{ "Địa chỉ" | localize }}</th>
+                    <th>{{ "Ngày tạo" | localize }}</th>
+                    <th>{{ "Ngày cập nhật" | localize }}</th>
+                    <th>{{ "Người cập nhật" | localize }}</th>
+                    <th style="width: 200px;">{{ "Hành động" | localize }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="
+                    let storage of storages
+                      | paginate
+                        : {
+                            id: 'server',
+                            itemsPerPage: pageSize,
+                            currentPage: pageNumber,
+                            totalItems: totalItems
+                          }
+                  ">
+                  <td>{{ storage.storageCode }}</td>
+                  <td>{{ storage.storageName }}</td>
+                  <td>{{ storage.address }}</td>
+                  <td>
+                    {{storage.creationTime | date: 'dd/MM/yyyy'}}
+                  </td>
+                  <td>
+                    {{storage.lastDateModified | date: 'dd/MM/yyyy'}}
+                  </td>
+                  <td>{{ storage.username }}</td>
+                  <td>
+                      <button type="button"
+                        class="btn btn-sm bg-secondary"
+                        [routerLink]="['edit', storage.storageCode]">
+                        <i class="fas fa-pencil-alt"></i>
+                        {{ "Sửa" | localize }}
+                      </button>
+                      <button type="button"
+                        class="btn btn-sm bg-danger mx-2"
+                        (click)="delete(storage)"
+                        *ngIf="isGranted('Pages.System.Test.Delete') == true"
+                        >
+                        <i class="fas fa-trash"></i>
+                        {{ "Xóa" | localize }}
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card-footer table-card-footer bg-light border-top">
+            <div class="row">
+              <div class="col-sm-4 col-12 text-sm-left text-center">
+                <button class="btn btn-secondary"
+                  (click)="refresh()">
+                  <i class="fas fa-redo-alt"></i>
+                </button>
+              </div>
+              <div class="col-sm-4 col-12 text-center">
+                <p class="mb-0 my-2">
+                  {{ "TotalRecordsCount" | localize: totalItems }}
+                </p>
+              </div>
+              <div class="col-sm-4 col-12">
+                <div class="float-sm-right m-auto">
+                  <abp-pagination-controls id="server"
+                    (pageChange)="getDataPage($event)">
+                  </abp-pagination-controls>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
