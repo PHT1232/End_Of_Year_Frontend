@@ -13,6 +13,30 @@
           </label>
           <div class="col-md-9">
             <input
+              type="text"
+              class="form-control"
+              name="testVarible"
+              id="testVarible"
+              required
+              minlength="2"
+              maxlength="32"
+              [(ngModel)]="storage.storageCode"
+              #nameModel="ngModel"
+              #nameEl
+            />
+            <input
+              type="text"
+              class="form-control"
+              name="testVarible"
+              id="testVarible"
+              required
+              minlength="2"
+              maxlength="32"
+              [(ngModel)]="storage.storageName"
+              #nameModel="ngModel"
+              #nameEl
+            />
+            <input
               type="number"
               class="form-control"
               name="testVarible"
@@ -20,10 +44,11 @@
               required
               minlength="2"
               maxlength="32"
-              [(ngModel)]="test.testVarible"
+              [(ngModel)]="storage.address"
               #nameModel="ngModel"
               #nameEl
             />
+                                                                                          
             <abp-validation-summary
               [control]="nameModel"
               [controlEl]="nameEl"
@@ -36,6 +61,5 @@
   <abp-modal-footer
     [cancelDisabled]="saving"
     [saveDisabled]="!createRoleForm.form.valid || saving"
-    (onCancelClick)="bsModalRef.hide()"
   ></abp-modal-footer>
 </form>
