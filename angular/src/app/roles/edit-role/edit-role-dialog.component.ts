@@ -29,6 +29,37 @@ export class EditRoleDialogComponent extends AppComponentBase
   grantedPermissionNames: string[];
   checkedPermissionsMap: { [key: string]: boolean } = {};
 
+  public permissions1 = [
+    { label: 'User Management', 
+      data: 'Pages.Users', 
+      children: 
+      [{
+          label: 'View',
+          data: 'Pages.System.Users.View',
+      },
+      {
+          label: 'Add',
+          data: 'Pages.System.Users.Add',
+      }], 
+      expanded: true },
+    { label: 'Test Management', 
+      data: 'Pages.System.Test', 
+      children: 
+      [{
+          label: 'View',
+          data: 'Pages.System.Test.View',
+      },
+      {
+          label: 'Add',
+          data: 'Pages.System.Test.Add',
+      },
+      {
+          label: 'Delete',
+          data: 'Pages.System.Test.Delete',
+      }], 
+      expanded: true },
+  ];
+
   @Output() onSave = new EventEmitter<any>();
 
   constructor(
@@ -62,14 +93,15 @@ export class EditRoleDialogComponent extends AppComponentBase
     return _includes(this.grantedPermissionNames, permissionName);
   }
 
-  onPermissionChange(permission: PermissionDto, $event) {
-    this.checkedPermissionsMap[permission.name] = $event.target.checked;
+  onPermissionChange(permission: string, $event) {
+    this.checkedPermissionsMap[permission] = $event.target.checked;
   }
 
   getCheckedPermissions(): string[] {
     const permissions: string[] = [];
     _forEach(this.checkedPermissionsMap, function (value, key) {
       if (value) {
+        console.error('new key: ' + key);
         permissions.push(key);
       }
     });
@@ -77,6 +109,7 @@ export class EditRoleDialogComponent extends AppComponentBase
   }
 
   save(): void {
+    // debugger;
     this.saving = true;
 
     const role = new RoleDto();
@@ -94,4 +127,6 @@ export class EditRoleDialogComponent extends AppComponentBase
       }
     );
   }
+
+
 }

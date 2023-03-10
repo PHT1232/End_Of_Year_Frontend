@@ -58,7 +58,7 @@ export class EditStorageComponent extends AppComponentBase implements OnInit {
     
     this._storageService.update(storageAdd).subscribe(
       () => {
-        this.notify.info(this.l('Saved Successfully'));
+        this.notify.info(this.l('Sửa thành công'));
         this.onSave.emit();
         this._router.navigate(['app/storage']);
       },
