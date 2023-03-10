@@ -41,6 +41,8 @@ import { SidebarMenuComponent } from './layout/sidebar-menu.component';
 import { TestComponent } from './main/test/test.component';
 import { CreateTestDialogComponent } from './main/test/create-test-dialog/create-test-dialog.component';
 import { EditTestDialogComponent } from './main/test/edit-test-dialog/edit-test-dialog.component';
+import { StorageComponent } from './main/storage/storage.component';
+import { CreateStorageComponent } from './main/storage/create-storage/create-storage.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +75,9 @@ import { EditTestDialogComponent } from './main/test/edit-test-dialog/edit-test-
     SidebarMenuComponent,
     TestComponent,
     CreateTestDialogComponent,
-    EditTestDialogComponent
+    EditTestDialogComponent,
+    StorageComponent,
+    CreateStorageComponent
   ],
   imports: [
     CommonModule,

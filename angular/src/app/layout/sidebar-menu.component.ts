@@ -51,6 +51,12 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
                 'Pages.System.Test'
             ),
             new MenuItem(
+                this.l('Kho'),
+                '/app/storage',
+                '',
+                'Pages.System.Storage.View'
+            ),
+            new MenuItem(
                 this.l('Roles'),
                 '/app/roles',
                 '',
