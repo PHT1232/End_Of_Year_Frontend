@@ -1,13 +1,15 @@
-<div class="modal-footer">
+<div class="modal-footer justify-content-center">
   <button
-    type="button"
-    class="btn btn-default"
-    [disabled]="cancelDisabled"
-    (click)="onCancelClick.emit()"
-  >
-    {{ cancelLabel }}
-  </button>
-  <button type="submit" class="btn btn-primary" [disabled]="saveDisabled">
-    {{ saveLabel }}
-  </button>
+  type="button"
+  class="btn btn-default"
+  [disabled]="cancelDisabled"
+  (click)="onCancelClick.emit()"
+>
+  {{ cancelLabel }}
+</button>
+<button type="submit" class="btn btn-primary" [disabled]="saveDisabled">
+  {{ saveLabel }}
+</button> 
 </div>
+  
+

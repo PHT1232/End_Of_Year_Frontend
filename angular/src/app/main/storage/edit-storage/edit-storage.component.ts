@@ -7,19 +7,19 @@ import {
 } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { AppComponentBase } from '@shared/app-component-base';
-import { PermissionDto, StorageInput, StorageServiceProxy } from '@shared/service-proxies/service-proxies';
+import { PermissionDto, StorageForUpdate, StorageInput, StorageServiceProxy } from '@shared/service-proxies/service-proxies';
 import { forEach as _forEach, map as _map } from 'lodash-es';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-create-storage',
-  templateUrl: './create-storage.component.html',
-  styleUrls: ['./create-storage.component.css'],
-  // animations: [appModuleAnimation]
+  selector: 'app-edit-storage',
+  templateUrl: './edit-storage.component.html',
+  styleUrls: ['./edit-storage.component.css']
 })
-export class CreateStorageComponent extends AppComponentBase implements OnInit {
+export class EditStorageComponent extends AppComponentBase implements OnInit {
   saving = false;
+  id: number;
   storage = new StorageInput();
   permissions: PermissionDto[] = [];
   checkedPermissionMap: { [key: string]: boolean } = {};
@@ -30,12 +30,24 @@ export class CreateStorageComponent extends AppComponentBase implements OnInit {
   constructor(
     injector: Injector,
     private _router: Router,
+    private router: ActivatedRoute,
     private _storageService: StorageServiceProxy
-  ) { 
+  ) 
+  { 
     super(injector);
   }
 
   ngOnInit(): void {
+    this.router.params.subscribe(params => {
+      this.id = params['id']
+    });
+    this._storageService.getStorageForEdit(this.id)
+    .subscribe((result: StorageForUpdate) => {
+      this.storage.storageCode = result.storageCode;
+      this.storage.storageName = result.storageName;
+      this.storage.address = result.address;
+      this.storage.description = result.description;
+    });
   }
 
   save(): void {
@@ -44,9 +56,9 @@ export class CreateStorageComponent extends AppComponentBase implements OnInit {
     const storageAdd = new StorageInput();
     storageAdd.init(this.storage);
     
-    this._storageService.createStorage(storageAdd).subscribe(
+    this._storageService.update(storageAdd).subscribe(
       () => {
-        this.notify.info(this.l('Thêm mới thành công'));
+        this.notify.info(this.l('Saved Successfully'));
         this.onSave.emit();
         this._router.navigate(['app/storage']);
       },

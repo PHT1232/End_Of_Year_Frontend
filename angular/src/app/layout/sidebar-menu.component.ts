@@ -43,13 +43,12 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
 
     getMenuItems(): MenuItem[] {
         return [
-            new MenuItem(this.l('HomePage'), '/app/home', ''),
-            new MenuItem(
-                this.l('Test'),
-                '/app/test',
-                '',
-                'Pages.System.Test'
-            ),
+            // new MenuItem(
+            //     this.l('Test'),
+            //     '/app/test',
+            //     '',
+            //     'Pages.System.Test'
+            // ),
             new MenuItem(
                 this.l('Kho'),
                 '/app/storage',
@@ -57,13 +56,19 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
                 'Pages.System.Storage.View'
             ),
             new MenuItem(
-                this.l('Roles'),
+                this.l('Danh mục'),
+                '/app/category',
+                '',
+                'Pages.System.Category.View'
+            ),
+            new MenuItem(
+                this.l('Vai trò'),
                 '/app/roles',
                 '',
                 'Pages.Users'
             ),
             new MenuItem(
-                this.l('Users'),
+                this.l('Người dùng'),
                 '/app/users',
                 '',
                 'Pages.Users'
