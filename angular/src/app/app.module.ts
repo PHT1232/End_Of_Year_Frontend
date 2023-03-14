@@ -52,6 +52,13 @@ import { ProductComponent } from './main/product/product.component';
 import { CreateProductComponent } from './main/product/create-product/create-product.component';
 import { EditProductComponent } from './main/product/edit-product/edit-product.component';
 import { DetailProductComponent } from './main/product/detail-product/detail-product.component';
+import { DetailStorageComponent } from './main/storage/detail-storage/detail-storage.component';
+import { ExportImportComponent } from './main/export-import/export-import.component';
+import { CreateExportImportComponent } from './main/export-import/create-export-import/create-export-import.component';
+import { EditExportImportComponent } from './main/export-import/edit-export-import/edit-export-import.component';
+import { DetailsExportImportComponent } from './main/export-import/details-export-import/details-export-import.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
   declarations: [
@@ -96,6 +103,11 @@ import { DetailProductComponent } from './main/product/detail-product/detail-pro
     CreateProductComponent,
     EditProductComponent,
     DetailProductComponent,
+    DetailStorageComponent,
+    ExportImportComponent,
+    CreateExportImportComponent,
+    EditExportImportComponent,
+    DetailsExportImportComponent,
   ],
   imports: [
     CommonModule,
@@ -111,6 +123,8 @@ import { DetailProductComponent } from './main/product/detail-product/detail-pro
     ServiceProxyModule,
     SharedModule,
     NgxPaginationModule,
+    // BrowserAnimationsModule,
+    BsDatepickerModule.forRoot(),
   ],
   providers: [],
   entryComponents: [

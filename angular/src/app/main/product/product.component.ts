@@ -27,7 +27,6 @@ export class ProductComponent extends PagedListingComponentBase<ProductGetAllDto
   getStorage: StorageProductDetail[] = [];
   getCategory: CategoryProduct[] = [];
   getSubcategorycode: SubcategoryProduct[] = [];
-  isCategoryCodeExist = false;
   totalCount: number;
 
   constructor(
@@ -111,10 +110,6 @@ export class ProductComponent extends PagedListingComponentBase<ProductGetAllDto
       this._productService.getSubcategoryProduct(this.categoryCode).subscribe(val => {
           this.getSubcategorycode = val
       });
-      this.isCategoryCodeExist = true;
-    } else if (this.categoryCode === '0') {
-      this.categoryCode = '0';
-      this.isCategoryCodeExist = false;
-    }
+    } 
   }
 }

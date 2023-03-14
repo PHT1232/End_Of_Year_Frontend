@@ -2072,8 +2072,8 @@ export class StorageServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    get(id: string | undefined): Observable<RoleDto> {
-        let url_ = this.baseUrl + "/api/services/app/Role/Get?";
+    get(id: string | undefined): Observable<StorageOutPutDto> {
+        let url_ = this.baseUrl + "/api/services/app/Storage/Get?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
         else if (id !== undefined)
@@ -2095,14 +2095,14 @@ export class StorageServiceProxy {
                 try {
                     return this.processGet(<any>response_);
                 } catch (e) {
-                    return <Observable<RoleDto>><any>_observableThrow(e);
+                    return <Observable<StorageOutPutDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<RoleDto>><any>_observableThrow(response_);
+                return <Observable<StorageOutPutDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGet(response: HttpResponseBase): Observable<RoleDto> {
+    protected processGet(response: HttpResponseBase): Observable<StorageOutPutDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -2113,7 +2113,7 @@ export class StorageServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
                 let result200: any = null;
                 let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = RoleDto.fromJS(resultData200);
+                result200 = StorageOutPutDto.fromJS(resultData200);
                 return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -2121,7 +2121,7 @@ export class StorageServiceProxy {
                 return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<RoleDto>(<any>null);
+        return _observableOf<StorageOutPutDto>(<any>null);
     }
 
     delete(id: string | undefined): Observable<void> {
@@ -4522,9 +4522,11 @@ export interface ICategoryPagedResultInputDto {
 }
 
 export interface IStorageProductDetail {
+    storageProductId: number;
     storageCode: string;
     storageName: string;
     quantity: number;
+    productLocation: string;
 }
 
 export interface IProductForUpdate {
@@ -4568,7 +4570,7 @@ export interface IProductInputDto {
     categoryId: string;
     subCategoryId: string;
     unit: string;
-    storages: ProductStorageDto[];
+    storages: StorageProductDetail[];
 }
 
 export interface IProductOutputDto {
@@ -5099,6 +5101,7 @@ export class StorageProduct implements IStorageProduct {
 }
 
 export class StorageProductDetail implements IStorageProductDetail {
+    storageProductId: number;
     storageCode: string;
     storageName: string;
     quantity: number;
@@ -5115,6 +5118,7 @@ export class StorageProductDetail implements IStorageProductDetail {
 
     init(_data: any) {
         if (_data) {
+            this.storageProductId = _data["storageProductId"];
             this.storageCode = _data["storageCode"];
             this.storageName = _data["storageName"];
             this.quantity = _data["quantity"];
@@ -5131,6 +5135,7 @@ export class StorageProductDetail implements IStorageProductDetail {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["storageProductId"] = this.storageProductId;
         data["storageCode"] = this.storageCode;
         data["storageName"] = this.storageName;
         data["quantity"] = this.quantity;
@@ -5340,7 +5345,7 @@ export class ProductInputDto implements IProductInputDto{
     categoryId: string;
     subCategoryId: string;
     unit: string;
-    storages: ProductStorageDto[];
+    storages: StorageProductDetail[];
 
     constructor(data?: IProductInputDto) {
         if (data) {
@@ -5380,6 +5385,7 @@ export class ProductInputDto implements IProductInputDto{
         data["productDetail"] = this.productDetail;
         data["price"] = this.price;
         data["categoryId"] = this.categoryId;
+        data["subCategoryId"] = this.subCategoryId;
         data["unit"] = this.unit;
         data["storages"] = this.storages;
         return data;
@@ -5411,6 +5417,7 @@ export class ProductOutputDto implements IProductOutputDto {
             this.productCode = _data["productCode"];
             this.productName = _data["productName"];
             this.productDescription = _data["productDescription"];
+            this.productDetail = _data["productDetail"];
             this.price = _data["price"];
             this.unit = _data["unit"];
             this.categoryId = _data["categoryId"];
@@ -5431,6 +5438,7 @@ export class ProductOutputDto implements IProductOutputDto {
         data["productCode"] = this.productCode;
         data["productName"] = this.productName;
         data["productDescription"] = this.productDescription;
+        data["productDetail"] = this.productDetail;
         data["price"] = this.price;
         data["unit"] = this.unit;
         data["categoryId"] = this.categoryId;

@@ -49,7 +49,7 @@
                                 <div class="form-group row mb-0">
                                     <div class="col pt-2">
                                         <select class="form-control" [(ngModel)]="storageCode" (change)="getDataPage(1)" [ngModelOptions]="{standalone: true}" aria-label="Default select example">
-                                          <option value="0" *ngIf="getCategory.length === 0" selected>Kho</option>
+                                          <option value="0" *ngIf="getStorage.length === 0" selected>Kho</option>
                                           <option *ngFor="let storage of getStorage;let i = index" value="{{storage.storageCode}}" [selected]="true">{{storage.storageName}}</option>
                                         </select>
                                     </div>
@@ -60,7 +60,7 @@
                                         </select>
                                     </div>
                                     <div class="col pt-2">
-                                        <select class="form-control" (change)="getDataPage(1)" [(ngModel)]="subcategoryCode" [ngModelOptions]="{standalone: true}" [disabled]="isCategoryCodeExist != true || subcategoryCode === 0" aria-label="Default select example">
+                                        <select class="form-control" (change)="getDataPage(1)" [(ngModel)]="subcategoryCode" [ngModelOptions]="{standalone: true}" [disabled]="getSubcategorycode.length === 0 || categoryCode === '0'" aria-label="Default select example">
                                           <option value="0" selected>Danh mục nhỏ</option>
                                           <option *ngFor="let subcategory of getSubcategorycode;let i = index" value="{{subcategory.subcategoryId}}">{{subcategory.subcategoryName}}</option>
                                         </select>

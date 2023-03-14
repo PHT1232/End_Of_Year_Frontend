@@ -53,9 +53,12 @@
                   </div>
                   <div class="row">
                     <div class="col">
-                      <select required="categoryCode === '0'" #selectModel="ngModel" #selectEl class="form-control" (change)="getSubcategory()" [(ngModel)]="categoryCode" [ngModelOptions]="{standalone: true}" aria-label="Default select example">
+                      <select required="categoryCode === '0'" #selectModel="ngModel" #selectEl class="form-control"
+                        (change)="getSubcategory()" [(ngModel)]="categoryCode" [ngModelOptions]="{standalone: true}"
+                        aria-label="Default select example">
                         <option value="0" selected>Danh mục</option>
-                        <option *ngFor="let category of getCategory;let i = index" value="{{category.CategoryId}}">{{category.CategoryName}}</option>
+                        <option *ngFor="let category of getCategory;let i = index" value="{{category.CategoryId}}">
+                          {{category.CategoryName}}</option>
                       </select>
                       <abp-validation-summary [control]="selectModel" [controlEl]="selectEl"></abp-validation-summary>
                     </div>
@@ -71,9 +74,12 @@
                   </div>
                   <div class="row">
                     <div class="col">
-                      <select required #selectSubModel="ngModel" #selectSubEl class="form-control" [disabled]="isCategoryCodeExist != true" [(ngModel)]="products.subCategoryId" [ngModelOptions]="{standalone: true}" aria-label="Default select example">
+                      <select required #selectSubModel="ngModel" #selectSubEl class="form-control"
+                        [disabled]="isCategoryCodeExist != true" [(ngModel)]="products.subCategoryId"
+                        [ngModelOptions]="{standalone: true}" aria-label="Default select example">
                         <option value="0" selected>Danh mục nhỏ</option>
-                        <option *ngFor="let subcategory of getSubcategorycode;let i = index" value="{{subcategory.subcategoryId}}">{{subcategory.subcategoryName}}</option>
+                        <option *ngFor="let subcategory of getSubcategorycode;let i = index"
+                          value="{{subcategory.subcategoryId}}">{{subcategory.subcategoryName}}</option>
                       </select>
                     </div>
                   </div>
@@ -91,10 +97,10 @@
                   </div>
                   <div class="row">
                     <div class="col">
-                      <input class="form-control" name="price" id="price"
-                        [(ngModel)]="this.products.price" type="number" #priceModel="ngModel" #priceEl required>
+                      <input class="form-control" name="price" id="price" [(ngModel)]="this.products.price"
+                        type="number" #priceModel="ngModel" #priceEl required>
                       <abp-validation-summary [control]="priceModel" [controlEl]="priceEl"></abp-validation-summary>
-                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="col">
@@ -108,10 +114,10 @@
                   </div>
                   <div class="row">
                     <div class="col">
-                      <input class="form-control" name="unit" id="unit"
-                        [(ngModel)]="this.products.unit" type="text" #unitModel="ngModel" #unitEl required>
+                      <input class="form-control" name="unit" id="unit" [(ngModel)]="this.products.unit" type="text"
+                        #unitModel="ngModel" #unitEl required>
                       <abp-validation-summary [control]="unitModel" [controlEl]="unitEl"></abp-validation-summary>
-                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -165,26 +171,29 @@
                   </div>
                   <div class="row" style="margin-top: 15px;"
                     *ngFor="let control of storageFormArray.controls; index as i">
-                      <ng-container [formGroup]="control">
-                        <div class="col" [@routerTransition]>
-                          <select class="form-control" [(ngModel)]="storageSelect[i].storageCode" formControlName="storageOfFormArray"
-                            aria-label="Default select example">
-                            <!-- <option value="0" selected>Kho</option> -->
-                            <option *ngFor="let the of getStorage" value="{{the.storageCode}}">{{the.storageName}}</option>
-                          </select>
-                        </div>  
-                        <div class="col">
-                          <input type="number" class="form-control" placeholder="Số lượng" [(ngModel)]="storageSelect[i].productQuantity" formControlName="quantity" />
-                        </div>
-                        <div class="col">
-                          <input class="form-control" placeholder="Vị trí" [(ngModel)]="storageSelect[i].productLocation" formControlName="location" />
-                        </div>
-                        <div class="col">
-                          <button type="button" class="btn bg-danger mx-2" (click)="RemoveItem(i)">
-                            <i class="fas fa-trash"></i>
-                          </button>
-                        </div>
-                      </ng-container>
+                    <ng-container [formGroup]="control">
+                      <div class="col" [@routerTransition]>
+                        <select class="form-control" [(ngModel)]="storageSelect[i].storageCode"
+                          formControlName="storageOfFormArray" aria-label="Default select example">
+                          <!-- <option value="0" selected>Kho</option> -->
+                          <option *ngFor="let the of getStorage" value="{{the.storageCode}}">{{the.storageName}}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="col">
+                        <input type="number" class="form-control" placeholder="Số lượng"
+                          [(ngModel)]="storageSelect[i].quantity" formControlName="quantity" />
+                      </div>
+                      <div class="col">
+                        <input class="form-control" placeholder="Vị trí" [(ngModel)]="storageSelect[i].productLocation"
+                          formControlName="location" />
+                      </div>
+                      <div class="col">
+                        <button type="button" class="btn bg-danger mx-2" (click)="RemoveItem(i)">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </div>
+                    </ng-container>
                   </div>
                 </div>
               </div>

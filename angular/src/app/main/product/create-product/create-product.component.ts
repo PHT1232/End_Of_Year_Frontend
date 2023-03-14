@@ -13,9 +13,7 @@ import { appModuleAnimation } from '@shared/animations/routerTransition';
 })
 export class CreateProductComponent extends AppComponentBase implements OnInit {
   saving = false;
-  storageCode = '';
   categoryCode = '0';
-  subcategoryCode = 0;
   productList: ProductGetAllDto[] = [];
   getStorage: StorageProductDetail[] = [];
   getCategory: CategoryProduct[] = [];
@@ -27,7 +25,7 @@ export class CreateProductComponent extends AppComponentBase implements OnInit {
   checkedPermissionMap: { [key: string]: boolean } = {};
   defaultPermissionCheckedStatus = true;
   products = new ProductInputDto();
-  storageSelect: ProductStorageDto[] = [];
+  storageSelect: StorageProductDetail[] = [];
   quantity: number;
   location: string;
   isTrue = true;
@@ -51,6 +49,7 @@ export class CreateProductComponent extends AppComponentBase implements OnInit {
         this.getCategory = val;
     });
     this.products.storages = [];
+    this.products.subCategoryId = '0';
   }
 
   save(): void {
@@ -65,7 +64,7 @@ export class CreateProductComponent extends AppComponentBase implements OnInit {
     product.unit = this.products.unit;
     product.price = this.products.price;  
     if (this.products.subCategoryId === '0')
-      product.subCategoryId = '0';
+      product.subCategoryId = null;
     else
       product.subCategoryId = this.products.subCategoryId;
       
@@ -102,7 +101,7 @@ export class CreateProductComponent extends AppComponentBase implements OnInit {
 
   AddItem() {
     if (this.storageFormArray.length < this.getStorage.length) {
-      this.storageSelect[this.storageFormArray.length] = new ProductStorageDto();
+      this.storageSelect[this.storageFormArray.length] = new StorageProductDetail();
       this.storageFormArray.push(new FormGroup({
         storageOfFormArray: new FormControl(''),
         quantity: new FormControl(''),
@@ -117,19 +116,14 @@ export class CreateProductComponent extends AppComponentBase implements OnInit {
 
   RemoveItem(index: number) {
     this.storageFormArray.removeAt(index);
-    this.storageSelect.slice(index);  
+    if (this.storageFormArray.length === 0) {
+      this.storageSelect = [];  
+    } else {
+      this.storageSelect.slice(index);
+    }
   }
 
   checkFormValid(): boolean {
-    // console.log('product code: ' + this.products.productCode);
-    // console.log('product Name: ' + this.products.productName);
-    // console.log('product price: ' + this.products.price);
-    // this.storageSelect.forEach(element => {
-    //     console.log('product select code: ' + element.storageCode)
-    //     console.log('product select quantity: ' + element.productQuantity)
-    //     console.log('product select location: ' + element.productLocation)
-    // });
-    // console.log('product length: ' + this.storageSelect.length);
     if (this.products.productCode === undefined 
       || this.products.productName === undefined 
       || this.products.price === undefined 
@@ -140,8 +134,13 @@ export class CreateProductComponent extends AppComponentBase implements OnInit {
       || this.products.productName === '') {
       return true;
     }
+
+    if (this.getSubcategorycode.length > 0 && this.products.subCategoryId === '0') {
+      return true;
+    }
+
     this.storageSelect.forEach(element => {
-      if (element.storageCode === undefined || element.productQuantity === undefined || element.productLocation === undefined) {
+      if (element.storageCode === undefined || element.quantity === undefined || element.productLocation === undefined) {
         this.isTrue = true;
       }
     });

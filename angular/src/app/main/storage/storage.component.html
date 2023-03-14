@@ -68,7 +68,7 @@
                             totalItems: totalItems
                           }
                   ">
-                  <td>{{ storage.storageCode }}</td>
+                  <td><a [routerLink]="['detail', storage.storageCode]">{{ storage.storageCode }}</a></td>
                   <td>{{ storage.storageName }}</td>
                   <td>{{ storage.address }}</td>
                   <td>

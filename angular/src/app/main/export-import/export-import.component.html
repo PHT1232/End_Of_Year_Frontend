@@ -1,0 +1,295 @@
+<div [@routerTransition]>
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-6">
+            <h1>{{ "Xuất nhập kho" | localize }}</h1>
+          </div>
+          <div class="col-6 text-right">
+            <a href="javascript:;"
+              class="btn bg-blue"
+              routerLink="create"
+              *ngIf="isGranted('Pages.System.Product.Add') == true">
+              <i class="fa fa-plus-square"></i>
+              {{ "Tạo" | localize }}
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="content px-2">
+      <div class="container-fluid">
+        <div class="card">
+          <div class="card-header">
+            <div class="row">
+              <div class="col-md-6">&emsp;</div>
+              <div class="col-md-6">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <button type="button"
+                      class="btn bg-blue"
+                      (click)="getDataPage(1)">
+                      <i class="fas fa-search"></i>
+                    </button>
+                  </div>
+                  <input type="text"
+                    class="form-control"
+                    name="keyword"
+                    [placeholder]="'SearchWithThreeDot' | localize"
+                    [(ngModel)]="keyword"
+                    (keydown)="getDataPage(1)" />
+                </div>
+              </div>
+            </div>
+            <div class="card mb-0 mt-2">
+                <div class="card-body">
+                    <form class="form-horizontal">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row mb-0">
+                                    <div class="col pt-2">
+                                        <select class="form-control" (change)="getDataPage(1)" aria-label="Default select example">
+                                          <option value="0" selected>Kho</option>
+                                          <!-- <option *ngFor="let storage of getStorage;let i = index" value="{{storage.storageCode}}" [selected]="true">{{storage.storageName}}</option> -->
+                                        </select>
+                                    </div>
+                                    <div class="col pt-2">
+                                        <input type="text"
+                                        placeholder="Ngày/tháng/năm"
+                                        class="form-control"
+                                        bsDaterangepicker
+                                        [bsConfig]="{ isAnimated: true, rangeInputFormat : 'DD/MM/YYYY' }"
+                                        [(ngModel)]="bsInlineRangeValue">
+                                      </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <tabset>
+                <tab [heading]="'Đang thực hiện'">
+                    <div class="table-responsive" style="margin-top: 15px;">
+                        <table class="table table-striped table-bordered"
+                          >
+                          <thead class="bg-light">
+                            <tr>
+                              <th>{{ "Mã đơn" | localize }}</th>
+                              <th>{{ "Người nhận" | localize }}</th>
+                              <th>{{ "Địa chỉ nhận" | localize }}</th>
+                              <th>{{ "Kho xuất" | localize }}</th>
+                              <th>{{ "Ngày tạo" | localize }}</th>
+                              <th>{{ "Ngày cập nhật" | localize }}</th>
+                              <th>{{ "Người cập nhật" | localize }}</th>
+                              <th style="width: 200px;">{{ "Hành động" | localize }}</th>
+                            </tr>
+                          </thead>
+                          <!-- <tbody>
+                            <tr *ngFor="
+                              let product of productList
+                                | paginate
+                                  : {
+                                      id: 'server',
+                                      itemsPerPage: pageSize,
+                                      currentPage: pageNumber,
+                                      totalItems: totalItems
+                                    }
+                            ">
+                            <td>
+                              <a [routerLink]="['detail', product.productCode]">{{ product.productCode }}</a>
+                            </td>
+                            <td>{{ product.productName }}</td>
+                            <td>{{ product.categoryName }}</td>
+                            <td>{{ product.unit }}</td>
+                            <td>
+                              {{ product.price | currency: 'VND' }}
+                            </td>
+                            <td>
+                              {{product.creationTime | date: 'dd/MM/yyyy'}}
+                            </td>
+                            <td>
+                              {{product.lastDateModified | date: 'dd/MM/yyyy'}}
+                            </td>
+                            <td>{{ product.username }}</td>
+                            <td>
+                                <button type="button"
+                                  class="btn btn-sm bg-secondary"
+                                  *ngIf="isGranted('Pages.System.Product.Add') == true"
+                                  [routerLink]="['edit', product.productCode]">
+                                  <i class="fas fa-pencil-alt"></i>
+                                  {{ "Sửa" | localize }}
+                                </button>
+                                <button type="button"
+                                  class="btn btn-sm bg-danger mx-2"
+                                  (click)="delete(product)"
+                                  *ngIf="isGranted('Pages.System.Product.Delete') == true"
+                                  >
+                                  <i class="fas fa-trash"></i>
+                                  {{ "Xóa" | localize }}
+                                </button>
+                              </td>
+                            </tr>
+                          </tbody> -->
+                        </table>
+                      </div>
+                </tab>             
+                <tab [heading]="'Đã hoàn thành'">
+                    <div class="table-responsive" style="margin-top: 15px;">
+                        <table class="table table-striped table-bordered"
+                          >
+                          <thead class="bg-light">
+                            <tr>
+                              <th>{{ "Mã đơn" | localize }}</th>
+                              <th>{{ "Người nhận" | localize }}</th>
+                              <th>{{ "Địa chỉ nhận" | localize }}</th>
+                              <th>{{ "Kho xuất" | localize }}</th>
+                              <th>{{ "Ngày tạo" | localize }}</th>
+                              <th>{{ "Ngày cập nhật" | localize }}</th>
+                              <th>{{ "Người cập nhật" | localize }}</th>
+                              <th style="width: 200px;">{{ "Hành động" | localize }}</th>
+                            </tr>
+                          </thead>
+                          <!-- <tbody>
+                            <tr *ngFor="
+                              let product of productList
+                                | paginate
+                                  : {
+                                      id: 'server',
+                                      itemsPerPage: pageSize,
+                                      currentPage: pageNumber,
+                                      totalItems: totalItems
+                                    }
+                            ">
+                            <td>
+                              <a [routerLink]="['detail', product.productCode]">{{ product.productCode }}</a>
+                            </td>
+                            <td>{{ product.productName }}</td>
+                            <td>{{ product.categoryName }}</td>
+                            <td>{{ product.unit }}</td>
+                            <td>
+                              {{ product.price | currency: 'VND' }}
+                            </td>
+                            <td>
+                              {{product.creationTime | date: 'dd/MM/yyyy'}}
+                            </td>
+                            <td>
+                              {{product.lastDateModified | date: 'dd/MM/yyyy'}}
+                            </td>
+                            <td>{{ product.username }}</td>
+                            <td>
+                                <button type="button"
+                                  class="btn btn-sm bg-secondary"
+                                  *ngIf="isGranted('Pages.System.Product.Add') == true"
+                                  [routerLink]="['edit', product.productCode]">
+                                  <i class="fas fa-pencil-alt"></i>
+                                  {{ "Sửa" | localize }}
+                                </button>
+                                <button type="button"
+                                  class="btn btn-sm bg-danger mx-2"
+                                  (click)="delete(product)"
+                                  *ngIf="isGranted('Pages.System.Product.Delete') == true"
+                                  >
+                                  <i class="fas fa-trash"></i>
+                                  {{ "Xóa" | localize }}
+                                </button>
+                              </td>
+                            </tr>
+                          </tbody> -->
+                        </table>
+                      </div>
+                </tab>             
+                <tab [heading]="'Đã hủy'">
+                    <div class="table-responsive" style="margin-top: 15px;">
+                        <table class="table table-striped table-bordered"
+                          >
+                          <thead class="bg-light">
+                            <tr>
+                              <th>{{ "Mã đơn" | localize }}</th>
+                              <th>{{ "Người nhận" | localize }}</th>
+                              <th>{{ "Địa chỉ nhận" | localize }}</th>
+                              <th>{{ "Kho xuất" | localize }}</th>
+                              <th>{{ "Ngày tạo" | localize }}</th>
+                              <th>{{ "Ngày cập nhật" | localize }}</th>
+                              <th>{{ "Người cập nhật" | localize }}</th>
+                              <th style="width: 200px;">{{ "Hành động" | localize }}</th>
+                            </tr>
+                          </thead>
+                          <!-- <tbody>
+                            <tr *ngFor="
+                              let product of productList
+                                | paginate
+                                  : {
+                                      id: 'server',
+                                      itemsPerPage: pageSize,
+                                      currentPage: pageNumber,
+                                      totalItems: totalItems
+                                    }
+                            ">
+                            <td>
+                              <a [routerLink]="['detail', product.productCode]">{{ product.productCode }}</a>
+                            </td>
+                            <td>{{ product.productName }}</td>
+                            <td>{{ product.categoryName }}</td>
+                            <td>{{ product.unit }}</td>
+                            <td>
+                              {{ product.price | currency: 'VND' }}
+                            </td>
+                            <td>
+                              {{product.creationTime | date: 'dd/MM/yyyy'}}
+                            </td>
+                            <td>
+                              {{product.lastDateModified | date: 'dd/MM/yyyy'}}
+                            </td>
+                            <td>{{ product.username }}</td>
+                            <td>
+                                <button type="button"
+                                  class="btn btn-sm bg-secondary"
+                                  *ngIf="isGranted('Pages.System.Product.Add') == true"
+                                  [routerLink]="['edit', product.productCode]">
+                                  <i class="fas fa-pencil-alt"></i>
+                                  {{ "Sửa" | localize }}
+                                </button>
+                                <button type="button"
+                                  class="btn btn-sm bg-danger mx-2"
+                                  (click)="delete(product)"
+                                  *ngIf="isGranted('Pages.System.Product.Delete') == true"
+                                  >
+                                  <i class="fas fa-trash"></i>
+                                  {{ "Xóa" | localize }}
+                                </button>
+                              </td>
+                            </tr>
+                          </tbody> -->
+                        </table>
+                      </div>
+                </tab>
+            </tabset>
+          </div>
+          <div class="card-footer table-card-footer bg-light border-top">
+            <div class="row">
+              <div class="col-sm-4 col-12 text-sm-left text-center">
+                <button class="btn btn-secondary"
+                  (click)="refresh()">
+                  <i class="fas fa-redo-alt"></i>
+                </button>
+              </div>
+              <div class="col-sm-4 col-12 text-center">
+                <p class="mb-0 my-2">
+                  {{ "TotalRecordsCount" | localize: totalItems }}
+                </p>
+              </div>
+              <div class="col-sm-4 col-12">
+                <div class="float-sm-right m-auto">
+                  <abp-pagination-controls id="server"
+                    (pageChange)="getDataPage($event)">
+                  </abp-pagination-controls>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
