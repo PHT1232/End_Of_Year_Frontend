@@ -8,7 +8,8 @@
           <div class="col-6 text-right">
             <a href="javascript:;"
               class="btn bg-blue"
-              routerLink="create">
+              routerLink="create"
+              *ngIf="isGranted('Pages.System.Storage.Add') == true">
               <i class="fa fa-plus-square"></i>
               {{ "Thêm" | localize }}
             </a>
@@ -78,7 +79,7 @@
                   </td>
                   <td>{{ storage.username }}</td>
                   <td>
-                      <button type="button"
+                      <button type="button" *ngIf="isGranted('Pages.System.Storage.Update') == true"
                         class="btn btn-sm bg-secondary"
                         [routerLink]="['edit', storage.storageCode]">
                         <i class="fas fa-pencil-alt"></i>
@@ -87,7 +88,7 @@
                       <button type="button"
                         class="btn btn-sm bg-danger mx-2"
                         (click)="delete(storage)"
-                        *ngIf="isGranted('Pages.System.Test.Delete') == true"
+                        *ngIf="isGranted('Pages.System.Storage.Delete') == true"
                         >
                         <i class="fas fa-trash"></i>
                         {{ "Xóa" | localize }}

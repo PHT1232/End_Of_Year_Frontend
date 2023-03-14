@@ -101,12 +101,14 @@ export class CreateProductComponent extends AppComponentBase implements OnInit {
   }
 
   AddItem() {
-    this.storageSelect[this.storageFormArray.length] = new ProductStorageDto();
-    this.storageFormArray.push(new FormGroup({
-      storageOfFormArray: new FormControl(''),
-      quantity: new FormControl(''),
-      location: new FormControl(''),
-    }));
+    if (this.storageFormArray.length < this.getStorage.length) {
+      this.storageSelect[this.storageFormArray.length] = new ProductStorageDto();
+      this.storageFormArray.push(new FormGroup({
+        storageOfFormArray: new FormControl(''),
+        quantity: new FormControl(''),
+        location: new FormControl(''),
+      }));
+    }
   }
 
   Cancel(): void {

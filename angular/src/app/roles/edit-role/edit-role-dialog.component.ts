@@ -30,36 +30,113 @@ export class EditRoleDialogComponent extends AppComponentBase
   checkedPermissionsMap: { [key: string]: boolean } = {};
 
   public permissions1 = [
-    { label: 'User Management', 
+    { label: 'Quản lý người dùng', 
       data: 'Pages.Users', 
       children: 
-      [{
-          label: 'View',
-          data: 'Pages.System.Users.View',
-      },
+      [
       {
-          label: 'Add',
-          data: 'Pages.System.Users.Add',
+          label: 'Thêm mới',
+          data: 'Pages.Users.Activation',
+          checked: true,
       }], 
       expanded: true },
-    { label: 'Test Management', 
-      data: 'Pages.System.Test', 
+    { label: 'Quản lý kho', 
+      data: 'Pages.System.Storage', 
       children: 
       [{
-          label: 'View',
-          data: 'Pages.System.Test.View',
+          label: 'Xem danh sách',
+          data: 'Pages.System.Storage.View',
+          checked: true,
       },
       {
-          label: 'Add',
-          data: 'Pages.System.Test.Add',
+          label: 'Thêm mới',
+          data: 'Pages.System.Storage.Add',
+          checked: true,
       },
       {
-          label: 'Delete',
-          data: 'Pages.System.Test.Delete',
+          label: 'Cập nhật',
+          data: 'Pages.System.Storage.Update',
+          checked: true,
+      },
+      {
+          label: 'Xóa',
+          data: 'Pages.System.Storage.Delete',
+          checked: true,
+      }], 
+      expanded: true },
+      { label: 'Quản lý danh mục', 
+      data: 'Pages.System.Category', 
+      children: 
+      [{
+          label: 'Xem danh sách',
+          data: 'Pages.System.Category.View',
+          checked: true,
+      },
+      {
+          label: 'Thêm mới',
+          data: 'Pages.System.Category.Add',
+          checked: true,
+      },
+      {
+          label: 'Cập nhật',
+          data: 'Pages.System.Category.Update',
+          checked: true,
+      },
+      {
+          label: 'Xóa',
+          data: 'Pages.System.Category.Delete',
+          checked: true,
+      }], 
+      expanded: true },
+      { label: 'Quản lý sản phẩm', 
+      data: 'Pages.System.Product', 
+      children: 
+      [{
+          label: 'Xem danh sách',
+          data: 'Pages.System.Product.View',
+          checked: true,
+      },
+      {
+          label: 'Thêm mới',
+          data: 'Pages.System.Product.Add',
+          checked: true,
+      },
+      {
+          label: 'Cập nhật',
+          data: 'Pages.System.Product.Update',
+          checked: true,
+      },
+      {
+          label: 'Xóa',
+          data: 'Pages.System.Product.Delete',
+          checked: true,
+      }], 
+      expanded: true },
+      { label: 'Quản lý xuất nhập', 
+      data: 'Pages.System.ExportImport', 
+      children: 
+      [{
+          label: 'Xem danh sách',
+          data: 'Pages.System.ExportImport.View',
+          checked: true,
+      },
+      {
+          label: 'Thêm mới',
+          data: 'Pages.System.ExportImport.Add',
+          checked: true,
+      },
+      {
+          label: 'Cập nhật',
+          data: 'Pages.System.ExportImport.Update',
+          checked: true,
+      },
+      {
+          label: 'Xóa',
+          data: 'Pages.System.ExportImport.Delete',
+          checked: true,
       }], 
       expanded: true },
   ];
-
   @Output() onSave = new EventEmitter<any>();
 
   constructor(
@@ -90,6 +167,13 @@ export class EditRoleDialogComponent extends AppComponentBase
   }
 
   isPermissionChecked(permissionName: string): boolean {
+    this.permissions1.forEach(element => {
+      element.children.forEach(elementChild => {
+        if (elementChild.data === permissionName) {
+          elementChild.checked = _includes(this.grantedPermissionNames, permissionName);
+        }
+      });
+    });
     return _includes(this.grantedPermissionNames, permissionName);
   }
 
@@ -106,6 +190,18 @@ export class EditRoleDialogComponent extends AppComponentBase
       }
     });
     return permissions;
+  }
+
+  onFatherPermissionChange(permission: string, $event) {
+    this.permissions1.forEach(element => {
+      if (element.data === permission) {
+        element.children.forEach(elementChild => {
+            this.checkedPermissionsMap[permission] = $event.target.checked;
+            this.checkedPermissionsMap[elementChild.data] = $event.target.checked;
+            elementChild.checked = $event.target.checked;
+        });
+      }
+    });
   }
 
   save(): void {

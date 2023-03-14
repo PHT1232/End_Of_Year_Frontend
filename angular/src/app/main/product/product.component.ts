@@ -42,6 +42,8 @@ export class ProductComponent extends PagedListingComponentBase<ProductGetAllDto
     this._productService.getCategoryProduct().subscribe(val => {
         this.getCategory = val;
     });
+    if (this.getStorage.length === 0)
+      this.storageCode = '0';
   }
 
   list(request: PagedProductRequestDto, pageNumber: number, finishedCallback: Function): void {
