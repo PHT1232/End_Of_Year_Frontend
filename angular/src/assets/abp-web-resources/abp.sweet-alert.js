@@ -87,6 +87,7 @@ var abp = abp || {};
     }
 
     options.html = "".concat(title ? "" : icon, "\n    <span class=\"text-light\">").concat(message, "</span>");
+
     Toast.fire(options);
   };
 

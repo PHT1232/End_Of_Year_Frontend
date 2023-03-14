@@ -3,7 +3,7 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-6">
-            <h1>{{ "Danh mục" | localize }}</h1>
+            <h1>{{ "Sản phẩm" | localize }}</h1>
           </div>
           <div class="col-6 text-right">
             <a href="javascript:;"
@@ -40,6 +40,35 @@
                 </div>
               </div>
             </div>
+            <div class="card mb-0 mt-2">
+                <div class="card-body">
+                    <form class="form-horizontal">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row mb-0">
+                                    <div class="col pt-2">
+                                        <select class="form-control" [(ngModel)]="storageCode" (change)="getDataPage(1)" [ngModelOptions]="{standalone: true}" aria-label="Default select example">
+                                          <option *ngFor="let storage of getStorage;let i = index" value="{{storage.storageCode}}" [selected]="true">{{storage.storageName}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col pt-2">
+                                        <select class="form-control" (change)="getSubcategory(); getDataPage(1)" [(ngModel)]="categoryCode" [ngModelOptions]="{standalone: true}" aria-label="Default select example">
+                                          <option value="0" selected>Danh mục</option>
+                                          <option *ngFor="let category of getCategory;let i = index" value="{{category.CategoryId}}">{{category.CategoryName}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col pt-2">
+                                        <select class="form-control" (change)="getDataPage(1)" [(ngModel)]="subcategoryCode" [disabled]="isCategoryCodeExist != true" aria-label="Default select example">
+                                          <option value="0" selected>Danh mục nhỏ</option>
+                                          <option *ngFor="let subcategory of getSubcategorycode;let i = index" value="{{subcategory.subcategoryId}}">{{subcategory.subcategoryName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
           </div>
           <div class="card-body">
             <div class="table-responsive">
@@ -47,8 +76,11 @@
                 [busy]="isTableLoading">
                 <thead class="bg-light">
                   <tr>
-                    <th>{{ "Mã danh mục" | localize }}</th>
-                    <th>{{ "Tên danh mục" | localize }}</th>
+                    <th>{{ "Mã sản phẩm" | localize }}</th>
+                    <th>{{ "Tên sản phẩm" | localize }}</th>
+                    <th>{{ "Danh mục" | localize }}</th>
+                    <th>{{ "Đơn vị tính" | localize }}</th>
+                    <th>{{ "Giá" | localize }}</th>
                     <th>{{ "Ngày tạo" | localize }}</th>
                     <th>{{ "Ngày cập nhật" | localize }}</th>
                     <th>{{ "Người cập nhật" | localize }}</th>
@@ -57,7 +89,7 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="
-                    let category of categories
+                    let product of productList
                       | paginate
                         : {
                             id: 'server',
@@ -67,26 +99,31 @@
                           }
                   ">
                   <td>
-                    <a [routerLink]="['detail', category.categoryCode]">{{ category.categoryCode }}</a>
+                    <a [routerLink]="['detail', product.productCode]">{{ product.productCode }}</a>
                   </td>
-                  <td>{{ category.categoryName }}</td>
+                  <td>{{ product.productName }}</td>
+                  <td>{{ product.categoryName }}</td>
+                  <td>{{ product.unit }}</td>
                   <td>
-                    {{category.creationTime | date: 'dd/MM/yyyy'}}
+                    {{ product.price | currency: 'VND' }}
                   </td>
                   <td>
-                    {{category.lastModifiedDate | date: 'dd/MM/yyyy'}}
+                    {{product.creationTime | date: 'dd/MM/yyyy'}}
                   </td>
-                  <td>{{ category.username }}</td>
+                  <td>
+                    {{product.lastDateModified | date: 'dd/MM/yyyy'}}
+                  </td>
+                  <td>{{ product.username }}</td>
                   <td>
                       <button type="button"
                         class="btn btn-sm bg-secondary"
-                        [routerLink]="['edit', category.categoryCode]">
+                        [routerLink]="['edit', product.productCode]">
                         <i class="fas fa-pencil-alt"></i>
                         {{ "Sửa" | localize }}
                       </button>
                       <button type="button"
                         class="btn btn-sm bg-danger mx-2"
-                        (click)="delete(category)"
+                        (click)="delete(product)"
                         *ngIf="isGranted('Pages.System.Test.Delete') == true"
                         >
                         <i class="fas fa-trash"></i>

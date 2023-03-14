@@ -15,6 +15,11 @@ import { EditStorageComponent } from './main/storage/edit-storage/edit-storage.c
 import { CategoryComponent } from './main/category/category.component';
 import { CreateCategoryComponent } from './main/category/create-category/create-category.component';
 import { EditCategoryComponent } from './main/category/edit-category/edit-category.component';
+import { DetailCategoryComponent } from './main/category/detail-category/detail-category.component';
+import { ProductComponent } from './main/product/product.component';
+import { CreateProductComponent } from './main/product/create-product/create-product.component';
+import { EditProductComponent } from './main/product/edit-product/edit-product.component';
+import { DetailProductComponent } from './main/product/detail-product/detail-product.component';
 
 @NgModule({
     imports: [
@@ -23,7 +28,7 @@ import { EditCategoryComponent } from './main/category/edit-category/edit-catego
                 path: '',
                 component: AppComponent,
                 children: [
-                    { path: 'home', component: StorageComponent, canActivate: [AppRouteGuard] },
+                    { path: 'home', component: HomeComponent, canActivate: [AppRouteGuard] },
                     { path: 'users', component: UsersComponent, data: { permission: 'Pages.Users' }, canActivate: [AppRouteGuard] },
                     { path: 'roles', component: RolesComponent, data: { permission: 'Pages.Users' }, canActivate: [AppRouteGuard] },
                     { path: 'tenants', component: TenantsComponent, data: { permission: 'Pages.Tenants' }, canActivate: [AppRouteGuard] },
@@ -35,7 +40,12 @@ import { EditCategoryComponent } from './main/category/edit-category/edit-catego
                     { path: 'storage/edit/:id', component: EditStorageComponent, data: { permission: 'Pages.System.Storage.Update'} , canActivate: [AppRouteGuard] },
                     { path: 'category', component: CategoryComponent, data: { permission: 'Pages.System.Category.View'} , canActivate: [AppRouteGuard] },
                     { path: 'category/create', component: CreateCategoryComponent, data: { permission: 'Pages.System.Category.Add'} , canActivate: [AppRouteGuard] },
-                    { path: 'category/edit/:id', component: EditCategoryComponent, data: { permission: 'Pages.System.Category.Update'} , canActivate: [AppRouteGuard] }
+                    { path: 'category/edit/:id', component: EditCategoryComponent, data: { permission: 'Pages.System.Category.Update'} , canActivate: [AppRouteGuard] },
+                    { path: 'category/detail/:id', component: DetailCategoryComponent, data: { permission: 'Pages.System.Category.View'} , canActivate: [AppRouteGuard] },
+                    { path: 'product', component: ProductComponent, data: { permission: 'Pages.System.Product.View'} , canActivate: [AppRouteGuard] },
+                    { path: 'product/create', component: CreateProductComponent, data: { permission: 'Pages.System.Product.Add'} , canActivate: [AppRouteGuard] },
+                    { path: 'product/edit/:id', component: EditProductComponent, data: { permission: 'Pages.System.Product.Update'} , canActivate: [AppRouteGuard] },
+                    { path: 'product/detail/:id', component: DetailProductComponent, data: { permission: 'Pages.System.Product.View'} , canActivate: [AppRouteGuard] }
                 ]
             }
         ])

@@ -47,6 +47,11 @@ import { EditStorageComponent } from './main/storage/edit-storage/edit-storage.c
 import { CategoryComponent } from './main/category/category.component';
 import { EditCategoryComponent } from './main/category/edit-category/edit-category.component';
 import { CreateCategoryComponent } from './main/category/create-category/create-category.component';
+import { DetailCategoryComponent } from './main/category/detail-category/detail-category.component';
+import { ProductComponent } from './main/product/product.component';
+import { CreateProductComponent } from './main/product/create-product/create-product.component';
+import { EditProductComponent } from './main/product/edit-product/edit-product.component';
+import { DetailProductComponent } from './main/product/detail-product/detail-product.component';
 
 @NgModule({
   declarations: [
@@ -86,6 +91,11 @@ import { CreateCategoryComponent } from './main/category/create-category/create-
     CategoryComponent,
     EditCategoryComponent,
     CreateCategoryComponent,
+    DetailCategoryComponent,
+    ProductComponent,
+    CreateProductComponent,
+    EditProductComponent,
+    DetailProductComponent,
   ],
   imports: [
     CommonModule,

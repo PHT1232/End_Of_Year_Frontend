@@ -15,7 +15,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-edit-storage',
   templateUrl: './edit-storage.component.html',
-  styleUrls: ['./edit-storage.component.css']
+  styleUrls: ['./edit-storage.component.css'],
+  animations: [appModuleAnimation()]
 })
 export class EditStorageComponent extends AppComponentBase implements OnInit {
   saving = false;
@@ -41,7 +42,7 @@ export class EditStorageComponent extends AppComponentBase implements OnInit {
     this.router.params.subscribe(params => {
       this.id = params['id']
     });
-    this._storageService.getStorageForEdit(this.id)
+    this._storageService.getStorageForEdit(this.id.toString())
     .subscribe((result: StorageForUpdate) => {
       this.storage.storageCode = result.storageCode;
       this.storage.storageName = result.storageName;
