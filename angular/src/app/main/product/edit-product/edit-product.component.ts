@@ -30,6 +30,8 @@ export class EditProductComponent extends AppComponentBase implements OnInit {
   quantity: number;
   location: string;
   isTrue = true;
+  isExist = false;
+  errorMessage = 'Không được trùng kho';
 
   @Output() onSave = new EventEmitter<any>();
 
@@ -165,6 +167,7 @@ export class EditProductComponent extends AppComponentBase implements OnInit {
       || this.storageSelect.length === 0
       || this.categoryCode === '0' 
       || this.products.unit === ''
+      || this.isExist
       || this.products.productCode === '' 
       || this.products.productName === '') {
       return true;
@@ -185,4 +188,18 @@ export class EditProductComponent extends AppComponentBase implements OnInit {
     }
   }
 
+  checkIfAlreadyExist(storageCode: string, index: number) {
+    var isForeach = false;
+    if (this.storageFormArray.length > 1) {
+      this.storageSelect.forEach((element, indexElement) => {
+        if (element.storageCode === storageCode && indexElement !== index) {
+          isForeach = true;
+          this.isExist = true;
+        }
+      });
+      if (!isForeach) {
+        this.isExist = false;
+      }
+    }
+  }
 }

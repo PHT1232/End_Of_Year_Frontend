@@ -49,14 +49,15 @@ export class ProductComponent extends PagedListingComponentBase<ProductGetAllDto
     request.keyword = this.keyword;
     request.storageCode = this.storageCode;
     request.categoryCode = this.categoryCode;
-    request.subcategoryCode = this.subcategoryCode; 
-    
-    console.log(request.keyword);
-    console.log(request.storageCode);
-    console.log(request.categoryCode);
-    console.log(request.subcategoryCode);
-
-    this._productService
+    setTimeout(() => { 
+      request.subcategoryCode = this.subcategoryCode; 
+      
+      console.log(request.keyword);
+      console.log(request.storageCode);
+      console.log(request.categoryCode);
+      console.log(request.subcategoryCode);
+      
+      this._productService
       .getAll(request.keyword, request.storageCode, request.categoryCode, request.subcategoryCode, request.skipCount, request.maxResultCount)
       .pipe(
         finalize(() => {
@@ -67,6 +68,7 @@ export class ProductComponent extends PagedListingComponentBase<ProductGetAllDto
         this.productList = result.items;
         this.showPaging(result, pageNumber);
       });
+    },500);
   }
   delete(entity: ProductGetAllDto): void {
     this.swal.fire({
@@ -109,6 +111,7 @@ export class ProductComponent extends PagedListingComponentBase<ProductGetAllDto
     if (this.categoryCode !== '0') {
       this._productService.getSubcategoryProduct(this.categoryCode).subscribe(val => {
           this.getSubcategorycode = val
+          this.subcategoryCode = 0;
       });
     } 
   }

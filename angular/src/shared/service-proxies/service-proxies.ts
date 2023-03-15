@@ -4489,8 +4489,9 @@ export interface IStorageGetAllPagedResultDto {
 export interface IStorageProduct {
     productCode: string;
     productName: string;
-    Unit: string;
-    Quantity: number;
+    unit: string;
+    quantity: number;
+    location: string;
 }
 
 
@@ -5055,8 +5056,9 @@ export class StorageOutPutDto implements IStorageOutPutDto {
 export class StorageProduct implements IStorageProduct {
     productCode: string;
     productName: string;
-    Unit: string;
-    Quantity: number;
+    unit: string;
+    quantity: number;
+    location: string;
 
     constructor(data?: IStorageProduct) {
         if (data) {
@@ -5071,8 +5073,9 @@ export class StorageProduct implements IStorageProduct {
         if (_data) {
             this.productCode = _data["productCode"];
             this.productName = _data["productName"];
-            this.Unit = _data["Unit"];
-            this.Quantity = _data["Quantity"];
+            this.unit = _data["unit"];
+            this.quantity = _data["quantity"];
+            this.location = _data["location"];
         }
     }
 
@@ -5087,8 +5090,9 @@ export class StorageProduct implements IStorageProduct {
         data = typeof data === 'object' ? data : {};
         data["productCode"] = this.productCode;
         data["productName"] = this.productName;
-        data["Unit"] = this.Unit;
-        data["Quantity"] = this.Quantity;
+        data["unit"] = this.unit;
+        data["quantity"] = this.quantity;
+        data["location"] = this.location;
         return data;
     }
 

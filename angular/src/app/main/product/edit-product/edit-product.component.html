@@ -173,12 +173,19 @@
                       *ngFor="let control of storageFormArray.controls; index as i">
                       <ng-container [formGroup]="control">
                         <div class="col" [@routerTransition]>
-                          <select class="form-control" [(ngModel)]="storageSelect[i].storageCode"
+                          <select class="form-control" [(ngModel)]="storageSelect[i].storageCode" (change)="checkIfAlreadyExist(storageSelect[i].storageCode, i)"
                             formControlName="storageOfFormArray" aria-label="Default select example">
                             <!-- <option value="0" selected>Kho</option> -->
                             <option *ngFor="let the of getStorage" value="{{the.storageCode}}">{{the.storageName}}
                             </option>
                           </select>
+                          <span
+                          style="display: block;"
+                          *ngIf="isExist"
+                          class="error invalid-feedback"
+                          >
+                            {{errorMessage}}
+                          </span>
                         </div>
                         <div class="col">
                           <input type="number" class="form-control" placeholder="Số lượng"

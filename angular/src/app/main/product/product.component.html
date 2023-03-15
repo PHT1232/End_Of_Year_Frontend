@@ -55,13 +55,13 @@
                                     </div>
                                     <div class="col pt-2">
                                         <select class="form-control" (change)="getSubcategory(); getDataPage(1)" [(ngModel)]="categoryCode" [ngModelOptions]="{standalone: true}" aria-label="Default select example">
-                                          <option value="0" selected>Danh mục</option>
+                                          <option value="0" selected>Tất cả danh mục</option>
                                           <option *ngFor="let category of getCategory;let i = index" value="{{category.CategoryId}}">{{category.CategoryName}}</option>
                                         </select>
                                     </div>
                                     <div class="col pt-2">
                                         <select class="form-control" (change)="getDataPage(1)" [(ngModel)]="subcategoryCode" [ngModelOptions]="{standalone: true}" [disabled]="getSubcategorycode.length === 0 || categoryCode === '0'" aria-label="Default select example">
-                                          <option value="0" selected>Danh mục nhỏ</option>
+                                          <option value="0" selected>Tất cả danh mục nhỏ</option>
                                           <option *ngFor="let subcategory of getSubcategorycode;let i = index" value="{{subcategory.subcategoryId}}">{{subcategory.subcategoryName}}</option>
                                         </select>
                                     </div>
