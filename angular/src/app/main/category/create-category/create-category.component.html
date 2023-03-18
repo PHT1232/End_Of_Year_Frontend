@@ -75,8 +75,16 @@
                       </div>
                       <div class="row" style="margin-top: 15px;" *ngFor="let control of subCategoryFormArray.controls; index as i">
                         <div class="col" [@routerTransition]>
-                            <input class="form-control" placeholder="Danh mục nhỏ {{i}}" [formControl]="subCategoryFormArray.controls[i]"/>  
+                            <input class="form-control" (input)="onChange($event.target.value, i)" placeholder="Danh mục nhỏ {{i}}" [formControl]="subCategoryFormArray.controls[i]"/>  
+                            <span
+                            style="display: block;"
+                            *ngIf="isExist[i]"
+                            class="error invalid-feedback"
+                            >
+                              {{errorMessage}}
+                          </span>
                         </div>
+                        
                         <div class="col">
                             <button type="button"
                             class="btn bg-danger mx-2"
@@ -88,7 +96,7 @@
                       </div>
                   </div>
                 </div>
-                <abp-modal-footer [cancelDisabled]="saving" [saveDisabled]="!createRoleForm.form.valid || saving"
+                <abp-modal-footer [cancelDisabled]="saving" [saveDisabled]="checkFormValid() || saving"
                 (onCancelClick)="Cancel()"></abp-modal-footer>
             </div>
           </div>  

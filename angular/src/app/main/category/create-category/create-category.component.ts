@@ -18,6 +18,9 @@ export class CreateCategoryComponent extends AppComponentBase implements OnInit 
   checkedPermissionMap: { [key: string]: boolean } = {};
   defaultPermissionCheckedStatus = true;
   subCategoryFormArray = new FormArray([]);
+  isExist: boolean[] = [];
+  errorMessage = 'Không được trùng với tên hoặc mã danh mục';
+  isTrue = true;
 
   @Output() onSave = new EventEmitter<any>();
 
@@ -66,5 +69,51 @@ export class CreateCategoryComponent extends AppComponentBase implements OnInit 
 
   RemoveItem(index: number) {
     this.subCategoryFormArray.removeAt(index);
+  }
+
+  onChange(subcategoryName: string, index: number) {
+    var isForeach = false;
+    // if (this.subCategoryFormArray.length > 1) {
+      this.subCategoryFormArray.controls.forEach((element, indexElement) => {
+        if (element.value.trim() === subcategoryName.trim() && indexElement !== index || subcategoryName.trim() === this.category.categoryName || subcategoryName.trim() === this.category.categoryCode) {
+            isForeach = true;
+            this.isExist[index] = true;
+            // this.isTrue = true;
+        }
+      });
+      if (!isForeach) {
+        this.isExist[index] = false;
+      }
+    // }
+  }
+
+  checkFormValid(): boolean {
+    if (this.category.categoryCode === undefined
+      || this.category.categoryName === undefined
+      || this.category.categoryCode === ''
+      || this.category.categoryName === '') {
+          return true;
+    }
+
+    if (this.subCategoryFormArray.length >= 0) {
+      this.subCategoryFormArray.controls.forEach((element, index) => {
+        if (element.value === undefined || element.value === '' || element.value === this.category.categoryName || element.value === this.category.categoryCode) {
+          this.isTrue = true;
+          return;
+        }
+      });
+    }
+
+    this.isExist.forEach(element => {
+      if (element) {
+        console.log("is true")
+        this.isTrue = true;
+      }
+    });
+
+    if (this.isTrue) {
+      this.isTrue = false;
+      return true;
+    }
   }
 }

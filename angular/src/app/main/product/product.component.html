@@ -37,7 +37,7 @@
                     name="keyword"
                     [placeholder]="'SearchWithThreeDot' | localize"
                     [(ngModel)]="keyword"
-                    (keydown)="getDataPage(1)" />
+                    (keyup.enter)="getDataPage(1)" />
                 </div>
               </div>
             </div>
@@ -82,6 +82,7 @@
                     <th>{{ "Tên sản phẩm" | localize }}</th>
                     <th>{{ "Danh mục" | localize }}</th>
                     <th>{{ "Đơn vị tính" | localize }}</th>
+                    <th>{{ "Số lượng" | localize }}</th>
                     <th>{{ "Giá" | localize }}</th>
                     <th>{{ "Ngày tạo" | localize }}</th>
                     <th>{{ "Ngày cập nhật" | localize }}</th>
@@ -106,6 +107,7 @@
                   <td>{{ product.productName }}</td>
                   <td>{{ product.categoryName }}</td>
                   <td>{{ product.unit }}</td>
+                  <td>{{ product.quantity }}</td>
                   <td>
                     {{ product.price | currency: 'VND' }}
                   </td>
