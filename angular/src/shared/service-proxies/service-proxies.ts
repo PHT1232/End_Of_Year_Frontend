@@ -1838,6 +1838,7 @@ export class UserServiceProxy {
 //#endregion
 
 //#region my service
+//#region Storage service
 @Injectable()
 export class StorageServiceProxy {
     private http: HttpClient;
@@ -2171,7 +2172,8 @@ export class StorageServiceProxy {
         return _observableOf<void>(<any>null);
     }
 }
-
+//#endregion
+//#region Category service
 @Injectable()
 export class CategoryServiceProxy {
     private http: HttpClient;
@@ -2449,7 +2451,8 @@ export class CategoryServiceProxy {
         return _observableOf<void>(<any>null);
     }
 }
-
+//#endregion
+//#region Product service
 @Injectable()
 export class ProductServiceProxy {
     private http: HttpClient;
@@ -2906,6 +2909,7 @@ export class ProductServiceProxy {
         return _observableOf<void>(<any>null);
     }
 }
+//#endregion
 //#endregion
 
 //#region test service

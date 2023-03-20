@@ -135,20 +135,32 @@ export class CreateProductComponent extends AppComponentBase implements OnInit {
       || this.products.productCode === ''
       || this.isExist 
       || this.products.productName === '') {
-      return true;
+        console.log("1 check form valid");
+        return true;
     }
 
     if (this.getSubcategorycode.length > 0 && this.products.subCategoryId === '0') {
+      console.log("2 check form valid");
       return true;
     }
 
-    this.storageSelect.forEach(element => {
-      if (element.storageCode === undefined || element.quantity === undefined || element.productLocation === undefined) {
+    // this.storageSelect.forEach(element => {
+    //   if (element.storageCode === undefined || element.quantity === undefined || element.productLocation === undefined) {
+    //     console.log("3 check form valid");
+    //     this.isTrue = true;
+    //   }
+    // });
+
+    this.storageFormArray.controls.forEach((element, index) => {
+      if (this.storageSelect[index].storageCode === undefined || this.storageSelect[index].quantity === undefined || this.storageSelect[index].productLocation === undefined) {
+        console.log("3 check form valid");
         this.isTrue = true;
       }
     });
+
     if (this.isTrue) {
       this.isTrue = false
+      console.log("4 check form valid");
       return true;
     }
   }

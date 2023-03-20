@@ -9,7 +9,7 @@
             <a href="javascript:;"
               class="btn bg-blue"
               routerLink="create"
-              *ngIf="isGranted('Pages.System.Product.Add') == true">
+              *ngIf="isGranted('Pages.System.ExportImport.Add') == true">
               <i class="fa fa-plus-square"></i>
               {{ "Tạo" | localize }}
             </a>
@@ -116,7 +116,7 @@
                             <td>
                                 <button type="button"
                                   class="btn btn-sm bg-secondary"
-                                  *ngIf="isGranted('Pages.System.Product.Add') == true"
+                                  *ngIf="isGranted('Pages.System.ExportImport.Add') == true"
                                   [routerLink]="['edit', product.productCode]">
                                   <i class="fas fa-pencil-alt"></i>
                                   {{ "Sửa" | localize }}
@@ -124,7 +124,7 @@
                                 <button type="button"
                                   class="btn btn-sm bg-danger mx-2"
                                   (click)="delete(product)"
-                                  *ngIf="isGranted('Pages.System.Product.Delete') == true"
+                                  *ngIf="isGranted('Pages.System.ExportImport.Delete') == true"
                                   >
                                   <i class="fas fa-trash"></i>
                                   {{ "Xóa" | localize }}
@@ -181,7 +181,7 @@
                             <td>
                                 <button type="button"
                                   class="btn btn-sm bg-secondary"
-                                  *ngIf="isGranted('Pages.System.Product.Add') == true"
+                                  *ngIf="isGranted('Pages.System.ExportImport.Add') == true"
                                   [routerLink]="['edit', product.productCode]">
                                   <i class="fas fa-pencil-alt"></i>
                                   {{ "Sửa" | localize }}
@@ -189,7 +189,7 @@
                                 <button type="button"
                                   class="btn btn-sm bg-danger mx-2"
                                   (click)="delete(product)"
-                                  *ngIf="isGranted('Pages.System.Product.Delete') == true"
+                                  *ngIf="isGranted('Pages.System.ExportImport.Delete') == true"
                                   >
                                   <i class="fas fa-trash"></i>
                                   {{ "Xóa" | localize }}
@@ -246,7 +246,7 @@
                             <td>
                                 <button type="button"
                                   class="btn btn-sm bg-secondary"
-                                  *ngIf="isGranted('Pages.System.Product.Add') == true"
+                                  *ngIf="isGranted('Pages.System.ExportImport.Add') == true"
                                   [routerLink]="['edit', product.productCode]">
                                   <i class="fas fa-pencil-alt"></i>
                                   {{ "Sửa" | localize }}
@@ -254,7 +254,7 @@
                                 <button type="button"
                                   class="btn btn-sm bg-danger mx-2"
                                   (click)="delete(product)"
-                                  *ngIf="isGranted('Pages.System.Product.Delete') == true"
+                                  *ngIf="isGranted('Pages.System.ExportImport.Delete') == true"
                                   >
                                   <i class="fas fa-trash"></i>
                                   {{ "Xóa" | localize }}
