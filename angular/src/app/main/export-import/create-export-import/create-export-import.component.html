@@ -21,14 +21,14 @@
                               maxlength="32" />
                             <!-- <abp-validation-summary [control]="nameCode" [controlEl]="nameCodeEl"></abp-validation-summary> -->
                           </div>
-                          <div class="col">
-                            <a href="javascript:;"
+                          <!-- <div class="col"> -->
+                            <!-- <a href="javascript:;"
                                 class="btn bg-blue"
                                 (click)="getRandomCode()">
                                 <i class="fa fa-plus-square"></i>
                                 {{ "Random" | localize }}
-                            </a>
-                          </div>
+                            </a> -->
+                          <!-- </div> -->
                         </div>
                     </div>
                     <div class="col">
@@ -45,7 +45,7 @@
                             <select required #selectModel="ngModel" #selectEl class="form-control"
                               [(ngModel)]="userCode" [ngModelOptions]="{standalone: true}"
                               aria-label="Default select example">
-                              <option value="0" selected>Người lập phiếu</option>
+                              <option value="0" selected>Vũ thị Nga</option>
                         <!-- <option *ngFor="let category of getCategory;let i = index" value="{{category.CategoryId}}">
                           {{category.CategoryName}}</option> -->
                             </select>
@@ -92,7 +92,7 @@
                         <div class="row">
                           <div class="col">
                             <input type="text" class="form-control" name="customerName" id="customerName" required
-                              maxlength="32" />
+                            />
                             <!-- <abp-validation-summary [control]="nameCode" [controlEl]="nameCodeEl"></abp-validation-summary> -->
                           </div>
                         </div>
@@ -119,21 +119,62 @@
                   </div>                
                   <div class="row" style="padding-bottom: 25px;">
                     <div class="col">
-                      <div class="row">
+                      <div class="row" style="margin-bottom: 25px;">
                         <div class="col">
                           <label for="name">
                             {{ "Sản phẩm" | localize }}
                           </label>
                           <span style="color: red; margin-left: 5px; font-size: 14pt;">*</span>
-                          <a style="margin-left: 20px;" href="javascript:;" class="btn bg-blue" (click)="AddItem()">
-                            <i class="fa fa-plus-square"></i>
-                            {{ "Tạo" | localize }}
-                          </a>
+                        </div>
+                        <div class="col">
+                          <select class="form-control" aria-label="Default select example">
+                          <option value="0" selected>Hoàng Quốc Việt</option>
+                          <!-- <option *ngFor="let the of getStorage" value="{{the.storageCode}}">{{the.storageName}}
+                          </option> -->
+                        </select>
                         </div>
                       </div>
-                      <div class="row" style="margin-top: 15px;"
-                        *ngFor="let control of formArray.controls; index as i">
-                        <ng-container [formGroup]="control">
+                      <div class="row">
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <button type="button"
+                              class="btn bg-blue"
+                              (click)="getDataPage(1)">
+                              <i class="fas fa-search"></i>
+                            </button>
+                          </div>
+                          <input type="text"
+                            class="form-control"
+                            name="keyword"
+                            [placeholder]="'SearchWithThreeDot' | localize"
+                            [(ngModel)]="keyword"
+                            (keydown)="getDataPage(1)" />
+                        </div>
+                      </div>
+                      <div class="row" style="margin-top: 15px;">
+                        <div class="table-responsive">
+                          <table class="table table-striped table-bordered">
+                              <thead class="bg-light">
+                                  <tr>
+                                      <th>{{ "Mã sản phẩm" | localize }}</th>
+                                      <th>{{ "Tên sản phẩm" | localize }}</th>
+                                      <th>{{ "Số lượng" | localize }}</th>
+                                      <th>{{ "Đơn vị tính" | localize }}</th>
+                                      <th></th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <tr>
+                                      <td>V3.0-PGK11-LS</td>
+                                      <td>Công tắc 1 chiều cỡ L</td>
+                                      <td style="width: 90px"><input type="number" class="form-control" style="width: 80px"></td>
+                                      <td>Cái</td>
+                                      <td style="width: 35px"><input type="checkbox" class="form-control" style="width: 25px; height: 25px"></td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                        <!-- <ng-container [formGroup]="control">
                           <div class="col" [@routerTransition]>
                             <select class="form-control"
                               [(ngModel)]="storageSelect[i].storageCode"
@@ -163,7 +204,7 @@
                               <i class="fas fa-trash"></i>
                             </button>
                           </div>
-                        </ng-container>
+                        </ng-container> -->
                       </div>
                     </div>
                   </div>
@@ -172,6 +213,240 @@
               </div>
             </div>  
           </tab>        
+          <tab [heading]="'Nhập trả kho' | localize" class="pt-3 px-2">
+            <div class="container-add">
+              <div class="container-row">
+                  <div class="row" style="padding-bottom: 25px;">
+                    <div class="col">
+                        <div class="row">
+                          <div class="col required">
+                            <label for="name" >
+                              {{ "Mã đơn:" | localize }}
+                            </label>
+                            <!-- <span style="color: red; margin-left: 5px; font-size: 14pt;">*</span> -->
+                          </div>
+                          <div class="col">
+                            <span>BTL00087</span>
+                          </div>
+                          <div class="col"></div>
+                        </div>
+                        <!-- <div class="row">
+                          <div class="col">
+                            <input readonly type="text" value="BTL00087" class="form-control" name="exportCode" id="exportCode" required
+                              maxlength="32" />
+                            <abp-validation-summary [control]="nameCode" [controlEl]="nameCodeEl"></abp-validation-summary>
+                          </div>
+                          <div class="col">
+                            <a href="javascript:;"
+                                class="btn bg-blue"
+                                (click)="getRandomCode()">
+                                <i class="fa fa-plus-square"></i>
+                                {{ "Random" | localize }}
+                            </a>
+                          </div>
+                        </div> -->
+                    </div>
+                    <div class="col">
+                        <div class="row">
+                          <div class="col">
+                            <label for="name">
+                              {{ "Người lập phiếu:" | localize }}
+                            </label>
+                            <!-- <span style="color: red; margin-left: 5px; font-size: 14pt;">*</span> -->
+                          </div>
+                          <div class="col">
+                            <span>Vũ Thị Nga</span>
+                          </div>
+                        </div>
+                        <!-- <div class="row">
+                          <div class="col">
+                            <select required #selectModel="ngModel" #selectEl class="form-control"
+                              [(ngModel)]="userCode" [ngModelOptions]="{standalone: true}"
+                              aria-label="Default select example">
+                              <option value="0" selected>Người lập phiếu</option>
+                              <option value="0" selected>Vũ Thị Nga</option>
+                        <option *ngFor="let category of getCategory;let i = index" value="{{category.CategoryId}}">
+                          {{category.CategoryName}}</option>
+                            </select>
+                              <abp-validation-summary [control]="nameModel" [controlEl]="nameEl"></abp-validation-summary>
+                          </div>
+                        </div> -->
+                    </div>
+                  </div>    
+                  <div class="row" style="padding-bottom: 25px;">
+                    <div class="col">
+                        <div class="row">
+                          <div class="col required">
+                            <label for="name">
+                              {{ "Số điện thoại khách:" | localize }}
+                            </label>
+                            <!-- <span style="color: red; margin-left: 5px; font-size: 14pt;">*</span> -->
+                          </div>
+                          <div class="col">
+                            <span>0988332136</span>
+                          </div>
+                        </div>
+                        <!-- <div class="row">
+                          <div class="col">
+                            <input type="text" value="0988332136" class="form-control" name="phoneNumber" id="phoneNumber" required
+                              maxlength="32" />
+                            <abp-validation-summary [control]="nameCode" [controlEl]="nameCodeEl"></abp-validation-summary>
+                          </div>
+                          <div class="col">
+                            <a href="javascript:;"
+                                class="btn bg-blue"
+                                (click)="getRandomCode()">
+                                <i class="fa fa-plus-square"></i>
+                                {{ "Tìm kiếm" | localize }}
+                            </a>
+                          </div>
+                        </div> -->
+                    </div>     
+                    <div class="col">
+                        <div class="row">
+                          <div class="col required">
+                            <label for="name">
+                              {{ "Tên khách:" | localize }}
+                            </label>
+                            <!-- <span style="color: red; margin-left: 5px; font-size: 14pt;">*</span> -->
+                          </div>
+                          <div class="col">
+                            <span>Đại lý Long Hùng</span>
+                          </div>
+                        </div>
+                        <!-- <div class="row">
+                          <div class="col">
+                            <input type="text" value="Đại lý Long Hùng" class="form-control" name="customerName" id="customerName" required
+                            />
+                            <abp-validation-summary [control]="nameCode" [controlEl]="nameCodeEl"></abp-validation-summary>
+                          </div>
+                        </div> -->
+                    </div>
+                  </div>                 
+                  <div class="row" style="padding-bottom: 25px;">
+                    <div class="col">
+                        <div class="row">
+                          <div class="col">
+                            <label for="name">
+                              {{ "Diễn giải" | localize }}
+                            </label>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col">
+                            <textarea class="form-control" name="description" id="description" cols="20"
+                              rows="10"><span>Nhập trả lại</span></textarea>  
+                          </div>
+                        </div>
+                    </div>
+                  </div>               
+                  <div class="row" style="padding-bottom: 25px;">
+                    <div class="col">
+                      <div class="row" style="margin-bottom: 25px;">
+                        <div class="col">
+                          <label for="name">
+                            {{ "Sản phẩm" | localize }}
+                          </label>
+                          <!-- <span style="color: red; margin-left: 5px; font-size: 14pt;">*</span> -->
+                          <div class="row">
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <button type="button"
+                                  class="btn bg-blue"
+                                  (click)="getDataPage(1)">
+                                  <i class="fas fa-search"></i>
+                                </button>
+                              </div>
+                              <input type="text"
+                                class="form-control"
+                                name="keyword"
+                                [placeholder]="'SearchWithThreeDot' | localize"
+                                [(ngModel)]="keyword"
+                                (keydown)="getDataPage(1)" />
+                            </div>
+                          </div>
+                          <div class="row" style="margin-top: 15px;">
+                            <div class="table-responsive">
+                              <table class="table table-striped table-bordered">
+                                  <thead class="bg-light">
+                                      <tr>
+                                          <th>{{ "Mã sản phẩm" | localize }}</th>
+                                          <th>{{ "Tên sản phẩm" | localize }}</th>
+                                          <th>{{ "Số lượng" | localize }}</th>
+                                          <th>{{ "Đơn vị tính" | localize }}</th>
+                                          <th></th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                      <tr>
+                                          <td>V3.0-PGK11-LS</td>
+                                          <td>Công tắc 1 chiều cỡ L</td>
+                                          <td style="width: 90px"><input type="number" class="form-control" style="width: 80px"></td>
+                                          <td>Cái</td>
+                                          <td style="width: 35px"><input type="checkbox" class="form-control" style="width: 25px; height: 25px"></td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+                          </div>
+                        </div>
+                        <!-- <div class="col">
+                          <select class="form-control" aria-label="Default select example">
+                          <option value="0" selected>Kho</option>
+                          <option value="1">Hoàng Quốc Việt</option>
+                          <option *ngFor="let the of getStorage" value="{{the.storageCode}}">{{the.storageName}}
+                          </option>
+                        </select>
+                        </div> -->
+                      </div>
+                      <!-- <div class="row">
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <button type="button"
+                              class="btn bg-blue"
+                              (click)="getDataPage(1)">
+                              <i class="fas fa-search"></i>
+                            </button>
+                          </div>
+                          <input type="text"
+                            class="form-control"
+                            name="keyword"
+                            [placeholder]="'SearchWithThreeDot' | localize"
+                            [(ngModel)]="keyword"
+                            (keydown)="getDataPage(1)" />
+                        </div>
+                      </div>
+                      <div class="row" style="margin-top: 15px;">
+                        <div class="table-responsive">
+                          <table class="table table-striped table-bordered">
+                              <thead class="bg-light">
+                                  <tr>
+                                      <th>{{ "Mã sản phẩm" | localize }}</th>
+                                      <th>{{ "Tên sản phẩm" | localize }}</th>
+                                      <th>{{ "Số lượng" | localize }}</th>
+                                      <th>{{ "Đơn vị tính" | localize }}</th>
+                                      <th></th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <tr>
+                                      <td>V3.0-PGK11-LS</td>
+                                      <td>Công tắc 1 chiều cỡ L</td>
+                                      <td style="width: 90px"><input type="number" class="form-control" style="width: 80px"></td>
+                                      <td>Cái</td>
+                                      <td style="width: 35px"><input type="checkbox" class="form-control" style="width: 25px; height: 25px"></td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                      </div> -->
+                    </div>
+                  </div>
+                  <abp-modal-footer [cancelDisabled]="saving" [saveDisabled]="checkFormValid() || saving"
+                    (onCancelClick)="Cancel()"></abp-modal-footer>
+              </div>
+            </div>  
+          </tab>       
           <tab [heading]="'Nhập kho' | localize" class="pt-3 px-2">
             <div class="container-add">
               <div class="container-row">
@@ -187,18 +462,18 @@
                         </div>
                         <div class="row">
                           <div class="col">
-                            <input type="text" class="form-control" name="phoneNumber" id="phoneNumber" required
+                            <input readonly value="BTL00087" type="text" class="form-control" name="phoneNumber" id="phoneNumber" required
                               maxlength="32" />
                             <!-- <abp-validation-summary [control]="nameCode" [controlEl]="nameCodeEl"></abp-validation-summary> -->
                           </div>
-                          <div class="col">
+                          <!-- <div class="col">
                             <a href="javascript:;"
                                 class="btn bg-blue"
                                 (click)="getCustomer()">
                                 <i class="fa fa-plus-square"></i>
                                 {{ "Random" | localize }}
                             </a>
-                          </div>
+                          </div> -->
                         </div>
                     </div>
                     <div class="col">
@@ -212,10 +487,10 @@
                         </div>
                         <div class="row">
                           <div class="col">
-                            <select required #selectModel="ngModel" #selectEl class="form-control"
+                            <select disabled required #selectModel="ngModel" #selectEl class="form-control"
                               [(ngModel)]="userCode" [ngModelOptions]="{standalone: true}"
                               aria-label="Default select example">
-                              <option value="0" selected>Người lập phiếu</option>
+                              <option value="0" selected>Vũ Thị Nga</option>
                         <!-- <option *ngFor="let category of getCategory;let i = index" value="{{category.CategoryId}}">
                           {{category.CategoryName}}</option> -->
                             </select>
@@ -235,64 +510,88 @@
                         </div>
                         <div class="row">
                           <div class="col">
-                            <textarea class="form-control" name="description" id="description" cols="20"
-                              rows="10"></textarea>  
+                            <textarea disabled class="form-control" name="description" id="description" cols="20"
+                              rows="10">Nhập trả lại</textarea>  
                           </div>
                         </div>
                     </div>
                   </div>
                   <div class="row" style="padding-bottom: 25px;">
                     <div class="col">
-                      <div class="row">
+                      <div class="row" style="margin-bottom: 25px;">
                         <div class="col">
                           <label for="name">
                             {{ "Sản phẩm" | localize }}
                           </label>
                           <span style="color: red; margin-left: 5px; font-size: 14pt;">*</span>
-                          <a style="margin-left: 20px;" href="javascript:;" class="btn bg-blue" (click)="AddItem()">
-                            <i class="fa fa-plus-square"></i>
-                            {{ "Tạo" | localize }}
-                          </a>
+                        </div>
+                        <div class="col">
+                          <select disabled class="form-control" aria-label="Default select example">
+                          <option value="0" selected>Hoàng Quốc Việt</option>
+                          <!-- <option *ngFor="let the of getStorage" value="{{the.storageCode}}">{{the.storageName}}
+                          </option> -->
+                        </select>
                         </div>
                       </div>
-                      <div class="row" style="margin-top: 15px;"
-                        *ngFor="let control of formArray.controls; index as i">
-                        <ng-container [formGroup]="control">
-                          <div class="col" [@routerTransition]>
-                            <select class="form-control"
-                              [(ngModel)]="storageSelect[i].storageCode"
-                              formControlName="storageOfFormArray" aria-label="Default select example">
-                              <option value="0" selected>Kho</option>
-                              <option *ngFor="let the of getStorage" value="{{the.storageCode}}">{{the.storageName}}
-                              </option>
-                            </select>
-                            <span
-                              style="display: block;"
-                              *ngIf="isExist"
-                              class="error invalid-feedback"
-                              >
-                                {{errorMessage}}
-                            </span>
-                          </div>
-                          <div class="col">
-                            <input class="form-control" placeholder="Sản phẩm" [(ngModel)]="storageSelect[i].productLocation"
-                            formControlName="location" />
-                          </div>
-                          <div class="col">
-                            <input type="number" class="form-control" placeholder="Số lượng"
-                              [(ngModel)]="storageSelect[i].quantity" formControlName="quantity" />
-                          </div>
-                          <div class="col">
-                            <button type="button" class="btn bg-danger mx-2" (click)="RemoveItem(i)">
-                              <i class="fas fa-trash"></i>
+                      <!-- <div class="row">
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <button type="button"
+                              class="btn bg-blue"
+                              (click)="getDataPage(1)">
+                              <i class="fas fa-search"></i>
                             </button>
                           </div>
-                        </ng-container>
+                          <input type="text"
+                            class="form-control"
+                            name="keyword"
+                            [placeholder]="'SearchWithThreeDot' | localize"
+                            [(ngModel)]="keyword"
+                            (keydown)="getDataPage(1)" />
+                        </div>
+                      </div> -->
+                      <div class="row" style="margin-top: 15px;">
+                        <div class="table-responsive">
+                          <table class="table table-striped table-bordered">
+                              <thead class="bg-light">
+                                  <tr>
+                                      <th>{{ "Mã sản phẩm" | localize }}</th>
+                                      <th>{{ "Tên sản phẩm" | localize }}</th>
+                                      <th>{{ "Số lượng" | localize }}</th>
+                                      <th>{{ "Đơn vị tính" | localize }}</th>
+                                      <th>{{ "Đơn giá" | localize }}</th>
+                                      <th>{{ "Thành tiền" | localize }}</th>
+                                      <!-- <th></th> -->
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <tr>
+                                      <td>V3.0-PGK11-LS</td>
+                                      <td>Công tắc 1 chiều cỡ L</td>
+                                      <td style="width: 90px">
+                                        <!-- <input type="number" class="form-control" style="width: 80px"> -->
+                                        200
+                                      </td>
+                                      <td>Cái</td>
+                                      <td>56,000</td>
+                                      <td>11,200,000</td>
+                                      <!-- <td style="width: 35px">
+                                        <input type="checkbox" class="form-control" style="width: 25px; height: 25px">
+                                      </td> -->
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
                       </div>
                     </div>
                   </div>
-                  <abp-modal-footer [cancelDisabled]="saving" [saveDisabled]="checkFormValid() || saving"
-                  (onCancelClick)="Cancel()"></abp-modal-footer>
+                  <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-default" (click)="Cancel()">
+                        Hủy
+                    </button>
+                </div>
+                  <!-- <abp-modal-footer [cancelDisabled]="saving" [saveDisabled]="checkFormValid() || saving"
+                  (onCancelClick)="Cancel()"></abp-modal-footer> -->
               </div>
             </div>  
           </tab>

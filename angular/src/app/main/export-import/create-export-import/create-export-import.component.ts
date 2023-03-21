@@ -4,6 +4,7 @@ import { AppComponentBase } from '@shared/app-component-base';
 import { CategoryInput, CategoryServiceProxy, PermissionDto } from '@shared/service-proxies/service-proxies';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
+import { PagedListingComponentBase } from '@shared/paged-listing-component-base';
 
 @Component({
   selector: 'app-create-export-import',
@@ -16,6 +17,7 @@ export class CreateExportImportComponent extends AppComponentBase implements OnI
   userCode = '0';
   isCollapsed = false;
   formArray = new FormArray([]);
+  keyword: string;
 
   constructor(
     injector: Injector,
@@ -58,5 +60,9 @@ export class CreateExportImportComponent extends AppComponentBase implements OnI
         location: new FormControl(''),
       }));
     // }
+  }
+  
+  getDataPage(page: number) {
+
   }
 }
