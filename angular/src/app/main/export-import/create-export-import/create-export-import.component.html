@@ -226,7 +226,7 @@
                             <!-- <span style="color: red; margin-left: 5px; font-size: 14pt;">*</span> -->
                           </div>
                           <div class="col">
-                            <span>BTL00087</span>
+                            <span>XK01306</span>
                           </div>
                           <div class="col"></div>
                         </div>
@@ -257,6 +257,7 @@
                           <div class="col">
                             <span>Vũ Thị Nga</span>
                           </div>
+                          <div class="col"></div>
                         </div>
                         <!-- <div class="row">
                           <div class="col">
@@ -285,6 +286,8 @@
                           <div class="col">
                             <span>0988332136</span>
                           </div>
+                          <div class="col">
+                          </div>
                         </div>
                         <!-- <div class="row">
                           <div class="col">
@@ -301,6 +304,7 @@
                             </a>
                           </div>
                         </div> -->
+
                     </div>     
                     <div class="col">
                         <div class="row">
@@ -311,8 +315,9 @@
                             <!-- <span style="color: red; margin-left: 5px; font-size: 14pt;">*</span> -->
                           </div>
                           <div class="col">
-                            <span>Đại lý Long Hùng</span>
+                            <span>Anh Trung - Cửa hàng Trung Quỳnh</span>
                           </div>
+                          <div class="col"></div>
                         </div>
                         <!-- <div class="row">
                           <div class="col">
@@ -323,7 +328,7 @@
                         </div> -->
                     </div>
                   </div>                 
-                  <div class="row" style="padding-bottom: 25px;">
+                  <!-- <div class="row" style="padding-bottom: 25px;">
                     <div class="col">
                         <div class="row">
                           <div class="col">
@@ -334,10 +339,36 @@
                         </div>
                         <div class="row">
                           <div class="col">
-                            <textarea class="form-control" name="description" id="description" cols="20"
-                              rows="10"><span>Nhập trả lại</span></textarea>  
+                            <textarea disabled class="form-control" name="description" id="description" cols="20"
+                              rows="10">Nhập trả lại</textarea>  
                           </div>
                         </div>
+                    </div>
+                  </div>  -->
+                                      <div class="row" style="padding-bottom: 25px;">
+                    <div class="col">
+                        <div class="row">
+                          <div class="col">
+                            <label for="name">
+                              {{ "Địa chỉ" | localize }}
+                            </label>
+                          </div>
+                          <div class="col">
+                            Số 208 Lạc Long Quân - Hà Nội
+                          </div>
+                          <div class="col"></div>
+                          <div class="col"><label for="name">
+                            {{ "Kho" | localize }}
+                          </label></div>
+                          <div class="col">Hoàng Quốc Việt</div>
+                          <div class="col"></div>
+                        </div>
+                        <!-- <div class="row">
+                          <div class="col">
+                            <textarea disabled class="form-control" name="description" id="description" cols="20"
+                              rows="10"></textarea>  
+                          </div>
+                        </div> -->
                     </div>
                   </div>               
                   <div class="row" style="padding-bottom: 25px;">
@@ -370,20 +401,29 @@
                               <table class="table table-striped table-bordered">
                                   <thead class="bg-light">
                                       <tr>
-                                          <th>{{ "Mã sản phẩm" | localize }}</th>
-                                          <th>{{ "Tên sản phẩm" | localize }}</th>
-                                          <th>{{ "Số lượng" | localize }}</th>
-                                          <th>{{ "Đơn vị tính" | localize }}</th>
-                                          <th></th>
+                                        <th>{{ "Mã sản phẩm" | localize }}</th>
+                                        <th>{{ "Tên sản phẩm" | localize }}</th>
+                                        <th>{{ "Số lượng" | localize }}</th>
+                                        <th>{{ "Đơn vị tính" | localize }}</th>
+                                        <th>{{ "Đơn giá" | localize }}</th>
+                                        <th>{{ "Thành tiền" | localize }}</th>
+                                        <!-- <th></th> -->
                                       </tr>
                                   </thead>
                                   <tbody>
                                       <tr>
-                                          <td>V3.0-PGK11-LS</td>
-                                          <td>Công tắc 1 chiều cỡ L</td>
-                                          <td style="width: 90px"><input type="number" class="form-control" style="width: 80px"></td>
-                                          <td>Cái</td>
-                                          <td style="width: 35px"><input type="checkbox" class="form-control" style="width: 25px; height: 25px"></td>
+                                        <td>V3.0-PGK11-LS</td>
+                                        <td>Công tắc 1 chiều cỡ L</td>
+                                        <td style="width: 90px">
+                                          <!-- <input type="number" class="form-control" style="width: 80px"> -->
+                                          200
+                                        </td>
+                                        <td>Cái</td>
+                                        <td>56,000</td>
+                                        <td>11,200,000</td>
+                                        <!-- <td style="width: 35px">
+                                          <input type="checkbox" class="form-control" style="width: 25px; height: 25px">
+                                        </td> -->
                                       </tr>
                                   </tbody>
                               </table>
@@ -442,8 +482,13 @@
                       </div> -->
                     </div>
                   </div>
-                  <abp-modal-footer [cancelDisabled]="saving" [saveDisabled]="checkFormValid() || saving"
-                    (onCancelClick)="Cancel()"></abp-modal-footer>
+                  <!-- <abp-modal-footer [cancelDisabled]="saving" [saveDisabled]="checkFormValid() || saving"
+                    (onCancelClick)="Cancel()"></abp-modal-footer> -->
+                    <div class="modal-footer justify-content-center">
+                      <button type="button" class="btn btn-default" (click)="Cancel()">
+                          Hủy
+                      </button>
+                  </div>
               </div>
             </div>  
           </tab>       
