@@ -2910,6 +2910,19 @@ export class ProductServiceProxy {
     }
 }
 //#endregion
+//#region Export import service
+@Injectable()
+export class ExportImportService {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+}
+//#endregion
 //#endregion
 
 //#region test service
@@ -4620,9 +4633,411 @@ export interface IGetAllTestDtoPagedResultDto {
     totalCount: number;
 }
 
+export interface IExportImportProductDto {
+    productId: string;
+    productName: string;
+    quantity: number;
+    price: number;
+    finalPrice: number;
+    totalPrice: number;
+}
+
+export interface IExportImportOutputDto {
+    exportImportCode: string;
+    nameOfReceiver: string;
+    orderStatus: number;
+    orderType: number;
+    receiveAddress: string;
+    products: ExportImportProductDto[];
+    storageId: string;
+    totalPrice: number;
+}
+
+export interface IGetAllExportImportDto {
+    exportImportCode: string;
+    nameOfReceiver: string;
+    orderStatus: number;
+    orderType: number;
+    creationTime: Date;
+    lastModifiedDate: Date;
+    username: string;
+}
+
+export interface IGetAllExportImportPagedResult {
+    items: GetAllExportImportDto[] | undefined;
+    totalCount: number;
+}
+
+export interface IExportImportInputDto {
+    exportImportCode: string;
+    orderCreator: string;
+    customer: CustomerDto;
+    products: ExportImportProductDto[];
+    storageId: string;
+    totalPrice: number;
+    description: string;
+}
 //#endregion
 
 //#region Implement dto interface
+export class ExportImportInput implements IExportImportInputDto {
+    exportImportCode: string;
+    orderCreator: string;
+    customer: CustomerDto;
+    products: ExportImportProductDto[];
+    storageId: string;
+    totalPrice: number;
+    description: string;
+
+    constructor(data?: ExportImportInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data: any) {
+        if (_data) {
+            this.exportImportCode = _data["exportImportCode"];
+            this.orderCreator = _data["orderCreator"];
+            this.products = _data["products"];
+            this.storageId = _data["storageId"];
+            this.totalPrice = _data["totalPrice"];
+            this.description = _data["description"];
+        }
+    }
+
+    static fromJS(data: any): ExportImportInput {
+        data = typeof data === 'object' ? data : {};
+        let result = new ExportImportInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["exportImportCode"] = this.exportImportCode;
+        data["orderCreator"] = this.orderCreator;
+        data["products"] = this.products;
+        data["storageId"] = this.storageId;
+        data["totalPrice"] = this.totalPrice;
+        data["description"] = this.description;
+        return data;
+    }
+}
+
+export class ExportImportOutputDto implements IExportImportOutputDto {
+    exportImportCode: string;
+    nameOfReceiver: string;
+    orderStatus: number;
+    orderType: number;
+    receiveAddress: string;
+    products: ExportImportProductDto[];
+    storageId: string;
+    totalPrice: number;
+
+    constructor(data?: IExportImportOutputDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data: any) {
+        if (_data) {
+            this.exportImportCode = _data["exportImportCode"];
+            this.nameOfReceiver = _data["nameOfReceiver"];
+            this.orderStatus = _data["orderStatus"];
+            this.orderType = _data["orderType"];
+            this.receiveAddress = _data["receiveAddress"];
+            this.products = _data["products"];
+            this.storageId = _data["storageId"];
+            this.totalPrice = _data["totalPrice"];
+        }
+    }
+
+    static fromJS(data: any): ExportImportOutputDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ExportImportOutputDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["exportImportCode"] = this.exportImportCode;
+        data["nameOfReceiver"] = this.nameOfReceiver;
+        data["orderStatus"] = this.orderStatus;
+        data["orderType"] = this.orderType;
+        data["receiveAddress"] = this.receiveAddress;
+        data["products"] = this.products;
+        data["storageId"] = this.storageId;
+        data["totalPrice"] = this.totalPrice;
+        return data;
+    }
+
+    clone(): ExportImportOutputDto {
+        const json = this.toJSON();
+        let result = new ExportImportOutputDto();
+        result.init(json);
+        return result;
+    }
+}
+export class GetAllExportImportPagedResult implements IGetAllExportImportPagedResult {
+    items: GetAllExportImportDto[] | undefined;
+    totalCount: number;
+
+    constructor(data?: IGetAllExportImportPagedResult) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items.push(GetAllExportImportDto.fromJS(item));
+            }
+            this.totalCount = _data["totalCount"];
+        }
+    }
+
+    static fromJS(data: any): GetAllExportImportPagedResult {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetAllExportImportPagedResult();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["totalCount"] = this.totalCount;
+        return data;
+    }
+
+    clone(): GetAllExportImportPagedResult {
+        const json = this.toJSON();
+        let result = new GetAllExportImportPagedResult();
+        result.init(json);
+        return result;
+    }
+}
+
+export class GetAllExportImportDto implements IGetAllExportImportDto {
+    exportImportCode: string;
+    nameOfReceiver: string;
+    orderStatus: number;
+    orderType: number;
+    creationTime: Date;
+    lastModifiedDate: Date;
+    username: string;
+
+    constructor(data?: IGetAllExportImportDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data: any) {
+        if (_data) {
+            this.exportImportCode = _data["exportImportCode"];
+            this.nameOfReceiver = _data["nameOfReceiver"];
+            this.orderStatus = _data["orderStatus"];
+            this.orderType = _data["orderType"];
+            this.creationTime = _data["creationTime"];
+            this.lastModifiedDate = _data["lastModifiedDate"];
+            this.username = _data["username"];
+        }
+    }
+
+    static fromJS(data: any): GetAllExportImportDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetAllExportImportDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["exportImportCode"] = this.exportImportCode;
+        data["nameOfReceiver"] = this.nameOfReceiver;
+        data["orderStatus"] = this.orderStatus;
+        data["orderType"] = this.orderType;
+        data["creationTime"] = this.creationTime;
+        data["lastModifiedDate"] = this.lastModifiedDate;
+        data["username"] = this.username;
+        return data;
+    }
+
+    clone(): GetAllExportImportDto {
+        const json = this.toJSON();
+        let result = new GetAllExportImportDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export class ExportImportProductDto implements IExportImportProductDto {
+    productId: string;
+    productName: string;
+    quantity: number;
+    price: number;
+    finalPrice: number;
+    totalPrice: number;
+
+    constructor(data?: IExportImportProductDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data: any) {
+        if (_data) {
+            this.productId = _data["productId"];
+            this.productName = _data["productName"];
+            this.quantity = _data["quantity"];
+            this.price = _data["price"];
+            this.finalPrice = _data["finalPrice"];
+            this.totalPrice = _data["totalPrice"];
+        }
+    }
+
+    static fromJS(data: any): ExportImportProductDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ExportImportProductDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["productId"] = this.productId;
+        data["productName"] = this.productName;
+        data["quantity"] = this.quantity;
+        data["price"] = this.price;
+        data["finalPrice"] = this.finalPrice;
+        data["totalPrice"] = this.totalPrice;
+        return data;
+    }
+
+    clone(): ExportImportProductDto {
+        const json = this.toJSON();
+        let result = new ExportImportProductDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export class CustomerDto {
+    customerCode: number;
+    customerName: string;
+    customerPhone: string;
+    customerAddress: string;
+
+    constructor(data?: CustomerDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data: any) {
+        if (_data) {
+            this.customerCode = _data["customerCode"];
+            this.customerName = _data["customerName"];
+            this.customerPhone = _data["customerPhone"];
+            this.customerAddress = _data["customerAddress"];
+        }
+    }
+
+    static fromJS(data: any): CustomerDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CustomerDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["customerCode"] = this.customerCode;
+        data["customerName"] = this.customerName;
+        data["customerPhone"] = this.customerPhone;
+        data["customerAddress"] = this.customerAddress;
+        return data;
+    }
+
+    clone(): CustomerDto {
+        const json = this.toJSON();
+        let result = new CustomerDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export class LookUpTable {
+    id: number;
+    name: string;
+
+    constructor(data?: LookUpTable) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+        }
+    }
+
+    static fromJS(data: any): LookUpTable {
+        data = typeof data === 'object' ? data : {};
+        let result = new LookUpTable();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        return data;
+    }
+
+    clone(): LookUpTable {
+        const json = this.toJSON();
+        let result = new LookUpTable();
+        result.init(json);
+        return result;
+    }
+}
+
 export class GetAllCategoryDto implements ICategoryGetAllDto {
     categoryCode: string;
     categoryName: string;
@@ -4767,7 +5182,7 @@ export class GetAllCategoryPagedResultDto implements ICategoryPagedResultInputDt
     items: GetAllCategoryDto[] | undefined;
     totalCount: number;
 
-    constructor(data?: IStorageGetAllPagedResultDto) {
+    constructor(data?: ICategoryPagedResultInputDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -5471,7 +5886,7 @@ export class ProductGetAllPagedResultDto implements IProductGetAllPagedResultDto
     items: ProductGetAllDto[] | undefined;
     totalCount: number;
 
-    constructor(data?: IGetAllTestDtoPagedResultDto) {
+    constructor(data?: IProductGetAllPagedResultDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))

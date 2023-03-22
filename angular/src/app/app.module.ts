@@ -59,6 +59,12 @@ import { EditExportImportComponent } from './main/export-import/edit-export-impo
 import { DetailsExportImportComponent } from './main/export-import/details-export-import/details-export-import.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { ImportComponent } from './main/export-import/create-export-import/import/import.component';
+import { ReturnImportComponent } from './main/export-import/create-export-import/return-import/return-import.component';
+import { DetailImportComponent } from './main/export-import/details-export-import/detail-import/detail-import.component';
+import { DetailReturnImportComponent } from './main/export-import/details-export-import/detail-return-import/detail-return-import.component';
+import { EditReturnImportComponent } from './main/export-import/edit-export-import/edit-return-import/edit-return-import.component';
+import { EditImportComponent } from './main/export-import/edit-export-import/edit-import/edit-import.component';
 
 @NgModule({
   declarations: [
@@ -108,6 +114,12 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     CreateExportImportComponent,
     EditExportImportComponent,
     DetailsExportImportComponent,
+    ImportComponent,
+    ReturnImportComponent,
+    DetailImportComponent,
+    DetailReturnImportComponent,
+    EditReturnImportComponent,
+    EditImportComponent,
   ],
   imports: [
     CommonModule,
