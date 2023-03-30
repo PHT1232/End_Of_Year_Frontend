@@ -44,13 +44,13 @@ export class CategoryComponent extends PagedListingComponentBase<GetAllCategoryD
   }
   delete(entity: GetAllCategoryDto): void {
     this.swal.fire({
-      title: 'Are you sure?',
-      text: 'Storage will be deleted',
+      title: 'Bạn có chắc?',
+      text: 'Danh mục sẽ bị xóa',
       showCancelButton: true,
       confirmButtonColor: this.confirmButtonColor,
       cancelButtonColor: this.cancelButtonColor,
-      cancelButtonText: 'Cancel',
-      confirmButtonText: 'Delete',
+      cancelButtonText: 'Hủy',
+      confirmButtonText: 'Xóa',
       reverseButtons: this.ReverseButtons,
       icon: 'warning',
     })

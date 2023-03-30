@@ -16,7 +16,7 @@ import { Router } from '@angular/router';
   selector: 'app-create-storage',
   templateUrl: './create-storage.component.html',
   styleUrls: ['./create-storage.component.css'],
-  // animations: [appModuleAnimation]
+  animations: [appModuleAnimation()]
 })
 export class CreateStorageComponent extends AppComponentBase implements OnInit {
   saving = false;
@@ -59,4 +59,5 @@ export class CreateStorageComponent extends AppComponentBase implements OnInit {
   Cancel(): void {
     this._router.navigate(['app/storage']);
   }
+
 }

@@ -10,10 +10,10 @@
   ></abp-modal-header>
   <div class="modal-body">
     <tabset>
-      <tab [heading]="'UserDetails' | localize" class="pt-3 px-2">
+      <tab [heading]="'Chi tiết' | localize" class="pt-3 px-2">
         <div class="form-group row required">
           <label class="col-md-3 col-form-label" for="name">
-            {{ "Name" | localize }}
+            {{ "Họ" | localize }}
           </label>
           <div class="col-md-9">
             <input
@@ -35,7 +35,7 @@
         </div>
         <div class="form-group row required">
           <label class="col-md-3 col-form-label" for="surname">
-            {{ "Surname" | localize }}
+            {{ "Tên" | localize }}
           </label>
           <div class="col-md-9">
             <input
@@ -80,7 +80,7 @@
         </div>
         <div class="form-group row required">
           <label class="col-md-3 col-form-label" for="password">
-            {{ "Password" | localize }}
+            {{ "Mật khẩu" | localize }}
           </label>
           <div class="col-md-9">
             <input
@@ -106,7 +106,7 @@
         </div>
         <div class="form-group row required">
           <label class="col-md-3 col-form-label" for="confirmPassword">
-            {{ "ConfirmPassword" | localize }}
+            {{ "Nhập lại mật khẩu" | localize }}
           </label>
           <div class="col-md-9">
             <input
@@ -131,7 +131,7 @@
         </div>
         <div class="form-group row required">
           <label class="col-md-3 col-form-label" for="emailAddress">
-            {{ "EmailAddress" | localize }}
+            {{ "Email" | localize }}
           </label>
           <div class="col-md-9">
             <input
@@ -154,7 +154,7 @@
         </div>
         <div class="form-group row mb-0">
           <label class="col-md-3 col-form-label">
-            {{ "IsActive" | localize }}
+            {{ "Đang hoạt động" | localize }}
           </label>
           <div class="col-md-9">
             <div class="custom-control custom-checkbox">
@@ -170,7 +170,7 @@
           </div>
         </div>
       </tab>
-      <tab [heading]="'UserRoles' | localize" class="pt-3 px-2">
+      <tab [heading]="'Vai trò' | localize" class="pt-3 px-2">
         <div class="form-group row mb-0">
           <ng-container *ngFor="let role of roles; let i = index">
             <div class="col-md-6">

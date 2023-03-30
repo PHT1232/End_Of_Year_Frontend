@@ -47,6 +47,26 @@ import { EditStorageComponent } from './main/storage/edit-storage/edit-storage.c
 import { CategoryComponent } from './main/category/category.component';
 import { EditCategoryComponent } from './main/category/edit-category/edit-category.component';
 import { CreateCategoryComponent } from './main/category/create-category/create-category.component';
+import { DetailCategoryComponent } from './main/category/detail-category/detail-category.component';
+import { ProductComponent } from './main/product/product.component';
+import { CreateProductComponent } from './main/product/create-product/create-product.component';
+import { EditProductComponent } from './main/product/edit-product/edit-product.component';
+import { DetailProductComponent } from './main/product/detail-product/detail-product.component';
+import { DetailStorageComponent } from './main/storage/detail-storage/detail-storage.component';
+import { ExportImportComponent } from './main/export-import/export-import.component';
+import { CreateExportImportComponent } from './main/export-import/create-export-import/create-export-import.component';
+import { EditExportImportComponent } from './main/export-import/edit-export-import/edit-export-import.component';
+import { DetailsExportImportComponent } from './main/export-import/details-export-import/details-export-import.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { ImportComponent } from './main/export-import/create-export-import/import/import.component';
+import { ReturnImportComponent } from './main/export-import/create-export-import/return-import/return-import.component';
+import { DetailImportComponent } from './main/export-import/details-export-import/detail-import/detail-import.component';
+import { DetailReturnImportComponent } from './main/export-import/details-export-import/detail-return-import/detail-return-import.component';
+import { EditReturnImportComponent } from './main/export-import/edit-export-import/edit-return-import/edit-return-import.component';
+import { EditImportComponent } from './main/export-import/edit-export-import/edit-import/edit-import.component';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { ExportImportTableFinishedComponent } from './main/export-import/export-import-table-finished/export-import-table-finished.component';
 
 @NgModule({
   declarations: [
@@ -86,6 +106,23 @@ import { CreateCategoryComponent } from './main/category/create-category/create-
     CategoryComponent,
     EditCategoryComponent,
     CreateCategoryComponent,
+    DetailCategoryComponent,
+    ProductComponent,
+    CreateProductComponent,
+    EditProductComponent,
+    DetailProductComponent,
+    DetailStorageComponent,
+    ExportImportComponent,
+    CreateExportImportComponent,
+    EditExportImportComponent,
+    DetailsExportImportComponent,
+    ImportComponent,
+    ReturnImportComponent,
+    DetailImportComponent,
+    DetailReturnImportComponent,
+    EditReturnImportComponent,
+    EditImportComponent,
+    ExportImportTableFinishedComponent,
   ],
   imports: [
     CommonModule,
@@ -101,6 +138,9 @@ import { CreateCategoryComponent } from './main/category/create-category/create-
     ServiceProxyModule,
     SharedModule,
     NgxPaginationModule,
+    // BrowserAnimationsModule,
+    BsDatepickerModule.forRoot(),
+    PaginationModule.forRoot(),
   ],
   providers: [],
   entryComponents: [

@@ -47,13 +47,13 @@ export class StorageComponent extends PagedListingComponentBase<GetAllStorageDto
   }
   delete(entity: GetAllStorageDto): void {
     this.swal.fire({
-      title: 'Are you sure?',
-      text: 'Storage will be deleted',
+      title: 'Bạn có chắc?',
+      text: 'kho sẽ bị xóa',
       showCancelButton: true,
       confirmButtonColor: this.confirmButtonColor,
       cancelButtonColor: this.cancelButtonColor,
-      cancelButtonText: 'Cancel',
-      confirmButtonText: 'Delete',
+      cancelButtonText: 'Hủy',
+      confirmButtonText: 'Xóa',
       reverseButtons: this.ReverseButtons,
       icon: 'warning',
     })

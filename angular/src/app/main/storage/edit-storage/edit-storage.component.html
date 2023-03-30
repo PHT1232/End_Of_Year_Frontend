@@ -1,4 +1,5 @@
-<form autocomplete="off" #createRoleForm="ngForm" (ngSubmit)="save()">
+<div [@routerTransition]>
+  <form autocomplete="off" #createRoleForm="ngForm" (ngSubmit)="save()">
     <div class="modal-body">
       <tabset>
         <tab [heading]="'Details' | localize" class="pt-3 px-2">
@@ -86,3 +87,4 @@
     </div>
     
   </form>
+</div>
