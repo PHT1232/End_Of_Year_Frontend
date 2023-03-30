@@ -129,7 +129,7 @@ export class CreateProductComponent extends AppComponentBase implements OnInit {
     if (this.products.productCode === undefined 
       || this.products.productName === undefined 
       || this.products.price === undefined 
-      || this.storageSelect.length === 0
+      // || this.storageSelect.length === 0
       || this.categoryCode === '0' 
       || this.products.unit === ''
       || this.products.productCode === ''
@@ -151,12 +151,12 @@ export class CreateProductComponent extends AppComponentBase implements OnInit {
     //   }
     // });
 
-    this.storageFormArray.controls.forEach((element, index) => {
-      if (this.storageSelect[index].storageCode === undefined || this.storageSelect[index].quantity === undefined || this.storageSelect[index].productLocation === undefined) {
-        console.log("3 check form valid");
-        this.isTrue = true;
-      }
-    });
+    // this.storageFormArray.controls.forEach((element, index) => {
+    //   if (this.storageSelect[index].storageCode === undefined || this.storageSelect[index].quantity === undefined || this.storageSelect[index].productLocation === undefined) {
+    //     console.log("3 check form valid");
+    //     this.isTrue = true;
+    //   }
+    // });
 
     if (this.isTrue) {
       this.isTrue = false

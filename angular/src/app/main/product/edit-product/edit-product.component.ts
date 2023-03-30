@@ -164,7 +164,7 @@ export class EditProductComponent extends AppComponentBase implements OnInit {
     if (this.products.productCode === undefined 
       || this.products.productName === undefined 
       || this.products.price === undefined 
-      || this.storageSelect.length === 0
+      // || this.storageSelect.length === 0
       || this.categoryCode === '0' 
       || this.products.unit === ''
       || this.isExist
@@ -177,11 +177,11 @@ export class EditProductComponent extends AppComponentBase implements OnInit {
       return true;
     }
 
-    this.storageSelect.forEach(element => {
-      if (element.storageCode === undefined || element.quantity === undefined || element.productLocation === undefined) {
-        this.isTrue = true;
-      }
-    });
+    // this.storageSelect.forEach(element => {
+    //   if (element.storageCode === undefined || element.quantity === undefined || element.productLocation === undefined) {
+    //     this.isTrue = true;
+    //   }
+    // });
     if (this.isTrue) {
       this.isTrue = false
       return true;

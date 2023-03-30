@@ -3282,10 +3282,12 @@ export class ExportImportService {
         return _observableOf<CustomerDto>(<any>null);
     }
 
-    getProduct(storageId: string, skipCount: number | undefined, maxResultCount: number | undefined): Observable<ExportImportPagedResult> {
+    getProduct(storageId: string, isInsert: boolean, skipCount: number | undefined, maxResultCount: number | undefined): Observable<ExportImportPagedResult> {
         let url_ = this.baseUrl + "/api/services/app/ExportImport/GetProduct?";
         if (storageId !== undefined)
-            url_ += "StorageId=" + encodeURIComponent("" + storageId) + "&";
+            url_ += "StorageId=" + encodeURIComponent("" + storageId) + "&";      
+        if (isInsert !== undefined)
+            url_ += "isInsert=" + encodeURIComponent("" + isInsert) + "&";
         if (skipCount === null)
             throw new Error("The parameter 'skipCount' cannot be null.");
         else if (skipCount !== undefined)
@@ -5243,6 +5245,8 @@ export class ExportImportInput implements IExportImportInputDto {
     products: ExportImportProductDto[];
     storageId: string;
     storageInputId: string;
+    productLocation: string;
+    nameOfExport: string;
     totalPrice: number;
     description: string;
 
@@ -5264,7 +5268,9 @@ export class ExportImportInput implements IExportImportInputDto {
             this.customer = _data["customer"];
             this.products = _data["products"];
             this.storageId = _data["storageId"];
+            this.nameOfExport = _data["nameOfExport"];
             this.storageInputId = _data["storageInputId"];
+            this.productLocation = _data["productLocation"];
             this.totalPrice = _data["totalPrice"];
             this.description = _data["description"];
         }
@@ -5287,6 +5293,8 @@ export class ExportImportInput implements IExportImportInputDto {
         data["products"] = this.products;
         data["storageId"] = this.storageId;
         data["storageInputId"] = this.storageInputId;
+        data["nameOfExport"] = this.nameOfExport;
+        data["productLocation"] = this.productLocation;
         data["totalPrice"] = this.totalPrice;
         data["description"] = this.description;
         return data;
@@ -5467,6 +5475,7 @@ export class GetAllExportImportDto implements IGetAllExportImportDto {
     creationTime: Date;
     lastModifiedDate: Date;
     username: string;
+    nameOfExport: string;
 
     constructor(data?: IGetAllExportImportDto) {
         if (data) {
@@ -5490,6 +5499,7 @@ export class GetAllExportImportDto implements IGetAllExportImportDto {
             this.creationTime = _data["creationTime"];
             this.lastModifiedDate = _data["lastModifiedDate"];
             this.username = _data["username"];
+            this.nameOfExport = _data["nameOfExport"];
         }
     }
 
@@ -5513,6 +5523,7 @@ export class GetAllExportImportDto implements IGetAllExportImportDto {
         data["creationTime"] = this.creationTime;
         data["lastModifiedDate"] = this.lastModifiedDate;
         data["username"] = this.username;
+        data["nameOfExport"] = this.nameOfExport;
         return data;
     }
 
@@ -5530,6 +5541,7 @@ export class ExportImportProductDto implements IExportImportProductDto {
     quantity: number;
     price: number;
     unit: string;
+    location: string;
     finalPrice: number;
     totalPrice: number;
 
@@ -5549,6 +5561,7 @@ export class ExportImportProductDto implements IExportImportProductDto {
             this.quantity = _data["quantity"];
             this.price = _data["price"];
             this.unit = _data["unit"];
+            this.location = _data["location"];
             this.finalPrice = _data["finalPrice"];
             this.totalPrice = _data["totalPrice"];
         }
@@ -5568,6 +5581,7 @@ export class ExportImportProductDto implements IExportImportProductDto {
         data["quantity"] = this.quantity;
         data["price"] = this.price;
         data["unit"] = this.unit;
+        data["location"] = this.location;
         data["finalPrice"] = this.finalPrice;
         data["totalPrice"] = this.totalPrice;
         return data;

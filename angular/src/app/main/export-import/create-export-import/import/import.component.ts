@@ -30,7 +30,7 @@ export class ImportComponent extends AppComponentBase implements OnInit {
   keyword: string;
   getStorage: StorageProductDetail[] = [];
   orderType = 1;
-  products: ExportImportProductDto[] = [];
+  products1: ExportImportProductDto[] = [];
   user: LookUpTable[] = [];
   request: PagedProductRequestDto;
   pageSize = 5;
@@ -41,7 +41,8 @@ export class ImportComponent extends AppComponentBase implements OnInit {
   quantityCheck: boolean[] = [];
   totalItems: number;
   initialProductQuantity: InitialProductQuantity[] = [];
-  isTableLoading = false;
+  isExist = false;
+  errorMessage = 'Không được trùng kho';
 
   @Output() onsave = new EventEmitter<any>();
 
@@ -49,28 +50,29 @@ export class ImportComponent extends AppComponentBase implements OnInit {
     injector: Injector,
     private _router: Router,
     private _exportImport: ExportImportService,
-    private _productService: ProductServiceProxy
+    private _productservice: ProductServiceProxy
   ) {
     super(injector);
-    this._productService.getStorageProduct().subscribe(val => {
+    this._productservice.getStorageProduct().subscribe(val => {
       this.getStorage = val;
+      this.storageCode = val[val.length - 1].storageCode;
     });
 
-    this.isTableLoading = true;
-    this._exportImport.getProduct(this.storageCode, this.skipCount, this.pageSize)
-    .subscribe((result: ExportImportPagedResult) => {
-      this.products = result.items;
-      this.showPaging(result, this.pageNumber);
-      for (let i = 0; i < this.products.length; i++) {
-        this.quantityCheck[i] = true;
-        let productQuantity = new InitialProductQuantity();
-        productQuantity.id = this.products[i].productId;
-        productQuantity.quantity = this.products[i].quantity;
-        this.initialProductQuantity.push(productQuantity);
-      }
-      this.isTableLoading = false;
-    });
-    
+    setTimeout(() => {
+      this._exportImport.getProduct(this.storageCode, false, this.skipCount, this.pageSize)
+      .subscribe((result: ExportImportPagedResult) => {
+        this.products1 = result.items;
+        this.showPaging(result, this.pageNumber);
+        for (let i = 0; i < this.products1.length; i++) {
+          this.quantityCheck[i] = true;
+          let productQuantity = new InitialProductQuantity();
+          productQuantity.id = this.products1[i].productId;
+          productQuantity.quantity = this.products1[i].quantity;
+          this.initialProductQuantity.push(productQuantity);
+        }
+      });
+    }, 300);
+   
     this._exportImport.getUser()
     .subscribe(val => {
       this.user = val;
@@ -83,17 +85,18 @@ export class ImportComponent extends AppComponentBase implements OnInit {
   ngOnInit(): void {
   }
 
-  save(): void {
+  save1(): void {
     let totalPrice = 0; 
     this.saving = true;
     this.exportImport.storageId = this.storageCode;
+    this.exportImport.storageInputId = this.storageCodeInput;
     this.exportImport.products.forEach(element => {
       totalPrice += element.finalPrice;
     });
 
     this.exportImport.totalPrice = totalPrice;
     this.exportImport.orderStatus = 1;
-    this.exportImport.orderType = 1;
+    this.exportImport.orderType = 2;
     this._exportImport.create(this.exportImport).subscribe(
       () => {
         this.notify.success(this.l('Tạo đơn thành công'));
@@ -119,12 +122,19 @@ export class ImportComponent extends AppComponentBase implements OnInit {
 
   checkFormValid(): boolean {
     // this.isTrue = true;
+    if (this.storageCodeInput === this.storageCode) {
+      this.isExist = true;
+    } else {
+      this.isExist = false;
+    }
+
     if (this.exportImport.products.length === 0
       || this.exportImport.exportImportCode === ''
       || this.exportImport.orderCreator === 0
       || this.storageCode === '0'
-      || this.storageCodeInput === '0') {
-      return true
+      || this.storageCodeInput === '0'
+      || this.storageCodeInput === this.storageCode) {
+      return true;
     }
 
     for (let i = 0; i < this.quantityCheck.length; i++) {
@@ -148,15 +158,15 @@ export class ImportComponent extends AppComponentBase implements OnInit {
   }
   
   changeQuantity(productTemp: ExportImportProductDto) {
-    this.products.forEach((element, index) => {
+    this.products1.forEach((element, index) => {
       if (element.productId === productTemp.productId) {
         this.initialProductQuantity.forEach(element1 => {
           if (element1.id === element.productId) {
             if (productTemp.quantity >= element1.quantity) {
-              this.products[index].quantity = element1.quantity;
-              this.products[index].finalPrice = element1.quantity * productTemp.price;
+              this.products1[index].quantity = element1.quantity;
+              this.products1[index].finalPrice = element1.quantity * productTemp.price;
             } else {
-              this.products[index].finalPrice = productTemp.quantity * productTemp.price;
+              this.products1[index].finalPrice = productTemp.quantity * productTemp.price;
             }
           }
         });
@@ -181,7 +191,7 @@ export class ImportComponent extends AppComponentBase implements OnInit {
       if (this.exportImport.products.length === 1) {
         this.exportImport.products = [];
       } else {
-        // delete this.exportImport.products[indexToSlice];
+        // delete this.exportImport.products1[indexToSlice];
         this.exportImport.products.slice(indexToSlice);
       }
       this.quantityCheck[index] = true;
@@ -195,11 +205,11 @@ export class ImportComponent extends AppComponentBase implements OnInit {
     this.exportImport.products = [];
     this.quantityCheck = [];
     this.skipCount = (page - 1) * this.pageSize;
-    this._exportImport.getProduct(this.storageCode, this.skipCount, this.pageSize)
+    this._exportImport.getProduct(this.storageCode, false, this.skipCount, this.pageSize)
     .subscribe((result: ExportImportPagedResult) => {
-      this.products = result.items;
+      this.products1 = result.items;
       this.showPaging(result, this.pageNumber);
-      for (let i = 0; i < this.products.length; i++) {
+      for (let i = 0; i < this.products1.length; i++) {
         this.quantityCheck[i] = true;
       }
     });
@@ -208,4 +218,6 @@ export class ImportComponent extends AppComponentBase implements OnInit {
   getProductPage() {
 
   }
+
+  
 }

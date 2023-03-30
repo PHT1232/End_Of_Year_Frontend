@@ -49,8 +49,8 @@
                                 <div class="form-group row mb-0">
                                     <div class="col pt-2">
                                         <select class="form-control" [(ngModel)]="storageCode" (change)="getDataPage(1)" [ngModelOptions]="{standalone: true}" aria-label="Default select example">
-                                          <option value="0" *ngIf="getStorage.length === 0" selected>Kho</option>
-                                          <option *ngFor="let storage of getStorage;let i = index" value="{{storage.storageCode}}" [selected]="true">{{storage.storageName}}</option>
+                                          <option value="0" selected>Kho</option>
+                                          <option *ngFor="let storage of getStorage;let i = index" value="{{storage.storageCode}}">{{storage.storageName}}</option>
                                         </select>
                                     </div>
                                     <div class="col pt-2">
@@ -82,7 +82,7 @@
                     <th>{{ "Tên sản phẩm" | localize }}</th>
                     <th>{{ "Danh mục" | localize }}</th>
                     <th>{{ "Đơn vị tính" | localize }}</th>
-                    <th>{{ "Số lượng" | localize }}</th>
+                    <th *ngIf="storageCode != '0'">{{ "Số lượng" | localize }}</th>
                     <th>{{ "Giá" | localize }}</th>
                     <th>{{ "Ngày tạo" | localize }}</th>
                     <th>{{ "Ngày cập nhật" | localize }}</th>
@@ -107,7 +107,7 @@
                   <td>{{ product.productName }}</td>
                   <td>{{ product.categoryName }}</td>
                   <td>{{ product.unit }}</td>
-                  <td>{{ product.quantity }}</td>
+                  <td *ngIf="storageCode != '0'">{{ product.quantity }}</td>
                   <td>
                     {{ product.price | currency: 'VND' }}
                   </td>
