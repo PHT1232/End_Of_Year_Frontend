@@ -66,6 +66,7 @@ import { DetailReturnImportComponent } from './main/export-import/details-export
 import { EditReturnImportComponent } from './main/export-import/edit-export-import/edit-return-import/edit-return-import.component';
 import { EditImportComponent } from './main/export-import/edit-export-import/edit-import/edit-import.component';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { ExportImportTableFinishedComponent } from './main/export-import/export-import-table-finished/export-import-table-finished.component';
 
 @NgModule({
   declarations: [
@@ -121,6 +122,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
     DetailReturnImportComponent,
     EditReturnImportComponent,
     EditImportComponent,
+    ExportImportTableFinishedComponent,
   ],
   imports: [
     CommonModule,

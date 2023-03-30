@@ -1,7 +1,7 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
-import { ExportImportPagedResult, ExportImportService, GetAllExportImportDto, GetAllExportImportPagedResult, ProductGetAllDto, ProductServiceProxy, StorageProductDetail } from '@shared/service-proxies/service-proxies';
+import { ExportImportInput, ExportImportPagedResult, ExportImportService, GetAllExportImportDto, GetAllExportImportPagedResult, ProductGetAllDto, ProductServiceProxy, StorageProductDetail } from '@shared/service-proxies/service-proxies';
 import { finalize } from 'rxjs/operators';
 
 class PagedExportImportRequestDto extends PagedRequestDto {
@@ -62,5 +62,32 @@ export class ExportImportComponent extends PagedListingComponentBase<GetAllExpor
   }
   delete(entity: GetAllExportImportDto): void {
     // throw new Error('Method not implemented.');
+    let input = new ExportImportInput();
+    input.exportImportCode = entity.exportImportCode;
+    input.orderStatus = 3;
+    this._exportImportService.updateOrder(input).subscribe(
+      () => {
+        this.notify.success(this.l('Cập nhật thành công'));
+        this.refresh();
+      },
+      () => {
+
+      }
+    )
+  }
+
+  finishOrder(entity: GetAllExportImportDto): void {
+    let input = new ExportImportInput();
+    input.exportImportCode = entity.exportImportCode;
+    input.orderStatus = 2;
+    this._exportImportService.updateOrder(input).subscribe(
+      () => {
+        this.notify.success(this.l('Cập nhật thành công'));
+        this.refresh();
+      },
+      () => {
+
+      }
+    )
   }
 }
