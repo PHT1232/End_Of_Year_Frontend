@@ -65,6 +65,7 @@ import { DetailImportComponent } from './main/export-import/details-export-impor
 import { DetailReturnImportComponent } from './main/export-import/details-export-import/detail-return-import/detail-return-import.component';
 import { EditReturnImportComponent } from './main/export-import/edit-export-import/edit-return-import/edit-return-import.component';
 import { EditImportComponent } from './main/export-import/edit-export-import/edit-import/edit-import.component';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 
 @NgModule({
   declarations: [
@@ -137,6 +138,7 @@ import { EditImportComponent } from './main/export-import/edit-export-import/edi
     NgxPaginationModule,
     // BrowserAnimationsModule,
     BsDatepickerModule.forRoot(),
+    PaginationModule.forRoot(),
   ],
   providers: [],
   entryComponents: [

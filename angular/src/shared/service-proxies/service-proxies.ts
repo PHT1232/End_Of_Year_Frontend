@@ -2921,6 +2921,497 @@ export class ExportImportService {
         this.http = http;
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
+
+    create(body: ExportImportInput | undefined): Observable<void> {
+        let _url = this.baseUrl + "/api/services/app/ExportImport/AddNew";
+        _url = _url.replace(/[?&]$/, "");
+
+        const _content = JSON.stringify(body);
+
+        let _options: any = {
+            body: _content,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", _url, _options).pipe(_observableMergeMap((_response: any) => {
+            return this.processAdd(_response);
+        })).pipe(_observableCatch((_response: any) => {
+            if (_response instanceof HttpResponseBase) {
+                try {
+                    return this.processAdd(<any>_response);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(_response);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(_response);
+        }));
+    }
+
+    protected processAdd(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {};
+        if (response.headers) {
+            for (let key of response.headers.keys()) {
+                _headers[key] = response.headers.get(key);
+            }
+        }
+
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+                return _observableOf<void>(<any>null);
+            }))
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+                return throwException("An unexpected server error occurred.", status, _responseText, Headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    createCustomer(body: CustomerDto | undefined): Observable<void> {
+        let _url = this.baseUrl + "/api/services/app/ExportImport/AddCustomer";
+        _url = _url.replace(/[?&]$/, "");
+
+        const _content = JSON.stringify(body);
+
+        let _options: any = {
+            body: _content,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("post", _url, _options).pipe(_observableMergeMap((_response: any) => {
+            return this.processAddCustomer(_response);
+        })).pipe(_observableCatch((_response: any) => {
+            if (_response instanceof HttpResponseBase) {
+                try {
+                    return this.processAddCustomer(<any>_response);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(_response);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(_response);
+        }));
+    }
+
+    protected processAddCustomer(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {};
+        if (response.headers) {
+            for (let key of response.headers.keys()) {
+                _headers[key] = response.headers.get(key);
+            }
+        }
+
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+                return _observableOf<void>(<any>null);
+            }))
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+                return throwException("An unexpected server error occurred.", status, _responseText, Headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+
+    update(body: ExportImportInput | undefined): Observable<ExportImportInput> {
+        let url_ = this.baseUrl + "/api/services/app/ExportImport/Update";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_: any) => {
+            return this.processUpdate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate(<any>response_);
+                } catch (e) {
+                    return <Observable<ExportImportInput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ExportImportInput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdate(response: HttpResponseBase): Observable<ExportImportInput> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } }
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = ExportImportInput.fromJS(resultData200);
+                return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ExportImportInput>(<any>null);
+    }
+
+    getRandomCode(): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/ExportImport/GetRandomCode";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetRandomCode(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRandomCode(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRandomCode(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } }
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200;
+                return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    delete(id: string | undefined): Observable<void> {
+        let _url = this.baseUrl + "/api/services/app/ExportImport/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null");
+        else if (id !== undefined)
+            _url += "Id=" + encodeURIComponent("" + id) + "&";
+        _url = _url.replace(/[?&]$/, "");
+
+        let _options: any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({})
+        };
+
+        return this.http.request("delete", _url, _options).pipe(_observableMergeMap((_response: any) => {
+            return this.processDelete(_response);
+        })).pipe(_observableCatch((_response: any) => {
+            if (_response instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>_response);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(_response);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } }
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+                return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    getCustomer(id: string): Observable<CustomerDto> {
+        let url_ = this.baseUrl + "/api/services/app/ExportImport/GetCustomer?";
+        if (id === null)
+        throw new Error("The parameter 'id' cannot be null");
+        else if (id !== undefined)
+        url_ += "PhoneNumber=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetCustomer(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetCustomer(<any>response_);
+                } catch (e) {
+                    return <Observable<CustomerDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CustomerDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetCustomer(response: HttpResponseBase): Observable<CustomerDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } }
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = CustomerDto.fromJS(resultData200);
+                return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CustomerDto>(<any>null);
+    }
+
+    getProduct(storageId: string, skipCount: number | undefined, maxResultCount: number | undefined): Observable<ExportImportPagedResult> {
+        let url_ = this.baseUrl + "/api/services/app/ExportImport/GetProduct?";
+        if (storageId !== undefined)
+            url_ += "StorageId=" + encodeURIComponent("" + storageId) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetProduct(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetProduct(<any>response_);
+                } catch (e) {
+                    return <Observable<ExportImportPagedResult>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ExportImportPagedResult>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetProduct(response: HttpResponseBase): Observable<ExportImportPagedResult> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } }
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = ExportImportPagedResult.fromJS(resultData200);
+                return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ExportImportPagedResult>(<any>null);
+    }
+
+    getUser(): Observable<LookUpTable[]> {
+        let url_ = this.baseUrl + "/api/services/app/ExportImport/GetCreator";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetUser(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetUser(<any>response_);
+                } catch (e) {
+                    return <Observable<LookUpTable[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<LookUpTable[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetUser(response: HttpResponseBase): Observable<LookUpTable[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(LookUpTable.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<LookUpTable[]>(<any>null);
+    }
+
+    getAll(keyword: string | undefined, storageCode: string, DateTime: Date[], orderType: number, skipCount: number | undefined, maxResultCount: number | undefined): Observable<GetAllExportImportPagedResult> {
+        let _url = this.baseUrl + "/api/services/app/ExportImport/GetAll"
+        if (keyword === null)
+            throw new Error("The parameter 'keyword' cannot be null.");
+        else if (keyword !== undefined)
+            _url += "?Keyword=" + encodeURIComponent("" + keyword) + "&";
+        if (storageCode !== undefined)
+            _url += "Storage=" + encodeURIComponent("" + storageCode) + "&";    
+        if (DateTime !== undefined)
+            _url += "DateTime=" + encodeURIComponent("" + DateTime) + "&";       
+        if (orderType !== 0)
+            _url += "OrderStatus=" + encodeURIComponent("" + orderType) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            _url += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            _url += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+
+        _url = _url.replace(/[?&]$/, "");
+
+        let _options: any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", _url, _options).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<GetAllExportImportPagedResult>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetAllExportImportPagedResult>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<GetAllExportImportPagedResult> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } }
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = GetAllExportImportPagedResult.fromJS(resultData200);
+                return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetAllExportImportPagedResult>(<any>null);
+    }
+
 }
 //#endregion
 //#endregion
@@ -4638,6 +5129,7 @@ export interface IExportImportProductDto {
     productName: string;
     quantity: number;
     price: number;
+    unit: string;
     finalPrice: number;
     totalPrice: number;
 }
@@ -4646,6 +5138,7 @@ export interface IExportImportOutputDto {
     exportImportCode: string;
     nameOfReceiver: string;
     orderStatus: number;
+    orderCreator: number;
     orderType: number;
     receiveAddress: string;
     products: ExportImportProductDto[];
@@ -4656,8 +5149,12 @@ export interface IExportImportOutputDto {
 export interface IGetAllExportImportDto {
     exportImportCode: string;
     nameOfReceiver: string;
+    orderCreator: string;
     orderStatus: number;
+    storageName: string;
+    address: string;
     orderType: number;
+    totalPrice: number;
     creationTime: Date;
     lastModifiedDate: Date;
     username: string;
@@ -4668,9 +5165,14 @@ export interface IGetAllExportImportPagedResult {
     totalCount: number;
 }
 
+export interface IProductExportImportPagedResult {
+    items: ExportImportProductDto[] | undefined;
+    totalCount: number;
+}
+
 export interface IExportImportInputDto {
     exportImportCode: string;
-    orderCreator: string;
+    orderCreator: number;
     customer: CustomerDto;
     products: ExportImportProductDto[];
     storageId: string;
@@ -4682,14 +5184,14 @@ export interface IExportImportInputDto {
 //#region Implement dto interface
 export class ExportImportInput implements IExportImportInputDto {
     exportImportCode: string;
-    orderCreator: string;
+    orderCreator: number;
     customer: CustomerDto;
     products: ExportImportProductDto[];
     storageId: string;
     totalPrice: number;
     description: string;
 
-    constructor(data?: ExportImportInput) {
+    constructor(data?: IExportImportInputDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -4702,6 +5204,7 @@ export class ExportImportInput implements IExportImportInputDto {
         if (_data) {
             this.exportImportCode = _data["exportImportCode"];
             this.orderCreator = _data["orderCreator"];
+            this.customer = _data["customer"];
             this.products = _data["products"];
             this.storageId = _data["storageId"];
             this.totalPrice = _data["totalPrice"];
@@ -4720,6 +5223,7 @@ export class ExportImportInput implements IExportImportInputDto {
         data = typeof data === 'object' ? data : {};
         data["exportImportCode"] = this.exportImportCode;
         data["orderCreator"] = this.orderCreator;
+        data["customer"] = this.customer;
         data["products"] = this.products;
         data["storageId"] = this.storageId;
         data["totalPrice"] = this.totalPrice;
@@ -4731,6 +5235,7 @@ export class ExportImportInput implements IExportImportInputDto {
 export class ExportImportOutputDto implements IExportImportOutputDto {
     exportImportCode: string;
     nameOfReceiver: string;
+    orderCreator: number;
     orderStatus: number;
     orderType: number;
     receiveAddress: string;
@@ -4751,6 +5256,7 @@ export class ExportImportOutputDto implements IExportImportOutputDto {
         if (_data) {
             this.exportImportCode = _data["exportImportCode"];
             this.nameOfReceiver = _data["nameOfReceiver"];
+            this.orderCreator = _data["orderCreator"];
             this.orderStatus = _data["orderStatus"];
             this.orderType = _data["orderType"];
             this.receiveAddress = _data["receiveAddress"];
@@ -4771,6 +5277,7 @@ export class ExportImportOutputDto implements IExportImportOutputDto {
         data = typeof data === 'object' ? data : {};
         data["exportImportCode"] = this.exportImportCode;
         data["nameOfReceiver"] = this.nameOfReceiver;
+        data["orderCreator"] = this.orderCreator;
         data["orderStatus"] = this.orderStatus;
         data["orderType"] = this.orderType;
         data["receiveAddress"] = this.receiveAddress;
@@ -4837,11 +5344,65 @@ export class GetAllExportImportPagedResult implements IGetAllExportImportPagedRe
     }
 }
 
+export class ExportImportPagedResult implements IProductExportImportPagedResult {
+    items: ExportImportProductDto[] | undefined;
+    totalCount: number;
+
+    constructor(data?: IProductExportImportPagedResult) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items.push(ExportImportProductDto.fromJS(item));
+            }
+            this.totalCount = _data["totalCount"];
+        }
+    }
+
+    static fromJS(data: any): ExportImportPagedResult {
+        data = typeof data === 'object' ? data : {};
+        let result = new ExportImportPagedResult();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["totalCount"] = this.totalCount;
+        return data;
+    }
+
+    clone(): ExportImportPagedResult {
+        const json = this.toJSON();
+        let result = new ExportImportPagedResult();
+        result.init(json);
+        return result;
+    }
+}
+
 export class GetAllExportImportDto implements IGetAllExportImportDto {
     exportImportCode: string;
     nameOfReceiver: string;
+    orderCreator: string;
     orderStatus: number;
+    storageName: string;
+    address: string;
     orderType: number;
+    totalPrice: number;
     creationTime: Date;
     lastModifiedDate: Date;
     username: string;
@@ -4859,8 +5420,12 @@ export class GetAllExportImportDto implements IGetAllExportImportDto {
         if (_data) {
             this.exportImportCode = _data["exportImportCode"];
             this.nameOfReceiver = _data["nameOfReceiver"];
+            this.orderCreator = _data["orderCreator"];
             this.orderStatus = _data["orderStatus"];
+            this.storageName = _data["storageName"];
+            this.address = _data["address"]
             this.orderType = _data["orderType"];
+            this.totalPrice = _data["totalPrice"];
             this.creationTime = _data["creationTime"];
             this.lastModifiedDate = _data["lastModifiedDate"];
             this.username = _data["username"];
@@ -4878,8 +5443,12 @@ export class GetAllExportImportDto implements IGetAllExportImportDto {
         data = typeof data === 'object' ? data : {};
         data["exportImportCode"] = this.exportImportCode;
         data["nameOfReceiver"] = this.nameOfReceiver;
+        data["orderCreator"] = this.orderCreator;
         data["orderStatus"] = this.orderStatus;
+        data["storageName"] = this.storageName;
+        data["address"] = this.address;
         data["orderType"] = this.orderType;
+        data["totalPrice"] = this.totalPrice;
         data["creationTime"] = this.creationTime;
         data["lastModifiedDate"] = this.lastModifiedDate;
         data["username"] = this.username;
@@ -4899,6 +5468,7 @@ export class ExportImportProductDto implements IExportImportProductDto {
     productName: string;
     quantity: number;
     price: number;
+    unit: string;
     finalPrice: number;
     totalPrice: number;
 
@@ -4917,6 +5487,7 @@ export class ExportImportProductDto implements IExportImportProductDto {
             this.productName = _data["productName"];
             this.quantity = _data["quantity"];
             this.price = _data["price"];
+            this.unit = _data["unit"];
             this.finalPrice = _data["finalPrice"];
             this.totalPrice = _data["totalPrice"];
         }
@@ -4935,6 +5506,7 @@ export class ExportImportProductDto implements IExportImportProductDto {
         data["productName"] = this.productName;
         data["quantity"] = this.quantity;
         data["price"] = this.price;
+        data["unit"] = this.unit;
         data["finalPrice"] = this.finalPrice;
         data["totalPrice"] = this.totalPrice;
         return data;
@@ -4952,7 +5524,7 @@ export class CustomerDto {
     customerCode: number;
     customerName: string;
     customerPhone: string;
-    customerAddress: string;
+    customerAdress: string;
 
     constructor(data?: CustomerDto) {
         if (data) {
@@ -4968,7 +5540,7 @@ export class CustomerDto {
             this.customerCode = _data["customerCode"];
             this.customerName = _data["customerName"];
             this.customerPhone = _data["customerPhone"];
-            this.customerAddress = _data["customerAddress"];
+            this.customerAdress = _data["customerAdress"];
         }
     }
 
@@ -4984,7 +5556,7 @@ export class CustomerDto {
         data["customerCode"] = this.customerCode;
         data["customerName"] = this.customerName;
         data["customerPhone"] = this.customerPhone;
-        data["customerAddress"] = this.customerAddress;
+        data["customerAdress"] = this.customerAdress;
         return data;
     }
 

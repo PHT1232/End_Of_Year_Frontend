@@ -2,7 +2,11 @@
   <form autocomplete="off" #createRoleForm="ngForm" (ngSubmit)="save()">
     <div class="modal-body">
       <tabset>
-        <tab [heading]="'Xuất kho' | localize" class="pt-3 px-2">
+        <tab
+          (selectTab)="(orderType == 1)"
+          [heading]="'Xuất kho' | localize"
+          class="pt-3 px-2"
+        >
           <div class="container-add">
             <div class="container-row">
               <div class="row" style="padding-bottom: 25px">
@@ -14,7 +18,8 @@
                       </label>
                       <span
                         style="color: red; margin-left: 5px; font-size: 14pt"
-                        >*</span>
+                        >*</span
+                      >
                     </div>
                   </div>
                   <div class="row">
@@ -25,17 +30,25 @@
                         name="exportCode"
                         id="exportCode"
                         required
+                        [(ngModel)]="exportImport.exportImportCode"
+                        #nameCode="ngModel"
+                        #nameCodeEl
                         maxlength="32"
                       />
-                      <abp-validation-summary [control]="nameCode" [controlEl]="nameCodeEl"></abp-validation-summary>
+                      <abp-validation-summary
+                        [control]="nameCode"
+                        [controlEl]="nameCodeEl"
+                      ></abp-validation-summary>
                     </div>
                     <div class="col">
-                    <a href="javascript:;"
-                                class="btn bg-blue"
-                                (click)="getRandomCode()">
-                                <i class="fa fa-plus-square"></i>
-                                {{ "Random" | localize }}
-                            </a>
+                      <a
+                        href="javascript:;"
+                        class="btn bg-blue"
+                        (click)="getRandomCode()"
+                      >
+                        <i class="fa fa-plus-square"></i>
+                        {{ "Random" | localize }}
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -58,13 +71,13 @@
                         #selectModel="ngModel"
                         #selectEl
                         class="form-control"
-                        [(ngModel)]="userCode"
+                        [(ngModel)]="exportImport.orderCreator"
                         [ngModelOptions]="{ standalone: true }"
                         aria-label="Default select example"
                       >
-                        <option value="0" selected>Vũ thị Nga</option>
-                        <!-- <option *ngFor="let category of getCategory;let i = index" value="{{category.CategoryId}}">
-                          {{category.CategoryName}}</option> -->
+                        <option value="0" selected>Người lập phiếu</option>
+                        <option *ngFor="let usd of user;let i = index" value="{{usd.id}}">
+                          {{usd.name}}</option>
                       </select>
                       <!-- <abp-validation-summary [control]="nameModel" [controlEl]="nameEl"></abp-validation-summary> -->
                     </div>
@@ -91,6 +104,7 @@
                         class="form-control"
                         name="phoneNumber"
                         id="phoneNumber"
+                        [(ngModel)]="customer.customerPhone"
                         required
                         maxlength="32"
                       />
@@ -100,7 +114,8 @@
                       <a
                         href="javascript:;"
                         class="btn bg-blue"
-                        (click)="getRandomCode()"
+                        (click)="getCustomer()"
+                        *ngIf="check()"
                       >
                         <i class="fa fa-plus-square"></i>
                         {{ "Tìm kiếm" | localize }}
@@ -127,6 +142,7 @@
                         class="form-control"
                         name="customerName"
                         id="customerName"
+                        [(ngModel)]="customer.customerName"
                         required
                       />
                       <!-- <abp-validation-summary [control]="nameCode" [controlEl]="nameCodeEl"></abp-validation-summary> -->
@@ -153,6 +169,7 @@
                         type="text"
                         class="form-control"
                         name="address"
+                        [(ngModel)]="customer.customerAdress"
                         id="address"
                         required
                         maxlength="32"
@@ -175,13 +192,9 @@
                       >
                     </div>
                     <div class="col">
-                      <select
-                        class="form-control"
-                        aria-label="Default select example"
-                      >
-                        <option value="0" selected>Hoàng Quốc Việt</option>
-                        <!-- <option *ngFor="let the of getStorage" value="{{the.storageCode}}">{{the.storageName}}
-                          </option> -->
+                      <select class="form-control" [(ngModel)]="storageCode" (change)="getDataPage(1)" [ngModelOptions]="{standalone: true}" aria-label="Default select example">
+                        <option value="0" *ngIf="getStorage.length === 0" selected>Kho</option>
+                        <option *ngFor="let storage of getStorage;let i = index" value="{{storage.storageCode}}" [selected]="true">{{storage.storageName}}</option>
                       </select>
                     </div>
                   </div>
@@ -215,31 +228,45 @@
                             <th>{{ "Tên sản phẩm" | localize }}</th>
                             <th>{{ "Số lượng" | localize }}</th>
                             <th>{{ "Đơn vị tính" | localize }}</th>
+                            <th>{{ "Giá" | localize }}</th>
+                            <th>{{ "Đơn giá" | localize }}</th>
                             <th></th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td>V3.0-PGK11-LS</td>
-                            <td>Công tắc 1 chiều cỡ L</td>
+                          <tr *ngFor="let product of products; let i = index">
+                            <td>{{ product.productId }}</td>
+                            <td>{{ product.productName }}</td>
                             <td style="width: 90px">
                               <input
+                                [disabled]="quantityCheck[i]"
+                                min="1"
                                 type="number"
                                 class="form-control"
+                                value="{{ product.quantity }}"
                                 style="width: 80px"
+                                [(ngModel)]="product.quantity"
+                                [ngModelOptions]="{standalone: true}"
+                                (change)="changeQuantity(product)"
                               />
                             </td>
-                            <td>Cái</td>
+                            <td>{{ product.unit }}</td>
+                            <td>{{ product.price | currency : "VND" }}</td>
+                            <td [innerHTML]="product.finalPrice | currency: 'VND'"></td>
                             <td style="width: 35px">
                               <input
                                 type="checkbox"
                                 class="form-control"
+                                (change)="AddItem(product, i)"
                                 style="width: 25px; height: 25px"
                               />
                             </td>
                           </tr>
                         </tbody>
                       </table>
+                      <pagination [totalItems]="totalItems" [(ngModel)]="pageNumber" (ngModelChange)="getProductPage()"
+                      previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+                      </pagination>
                     </div>
                     <!-- <ng-container [formGroup]="control">
                           <div class="col" [@routerTransition]>
@@ -280,13 +307,6 @@
                 [saveDisabled]="checkFormValid() || saving"
                 (onCancelClick)="Cancel()"
               ></abp-modal-footer>
-            </div>
-          </div>
-        </tab>
-        <tab [heading]="'Nhập trả kho' | localize" class="pt-3 px-2">
-          <div class="container-add">
-            <div class="container-row">
-              <app-return-import></app-return-import>
             </div>
           </div>
         </tab>
