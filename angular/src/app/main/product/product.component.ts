@@ -20,7 +20,7 @@ class PagedProductRequestDto extends PagedRequestDto {
 })
 export class ProductComponent extends PagedListingComponentBase<ProductGetAllDto> {
   keyword = '';
-  storageCode = '';
+  storageCode = '0';
   categoryCode = '0';
   subcategoryCode = 0;
   productList: ProductGetAllDto[] = [];

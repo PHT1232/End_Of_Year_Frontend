@@ -155,7 +155,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="row" style="padding-bottom: 25px;">
+                <!-- <div class="row" style="padding-bottom: 25px;">
                   <div class="col">
                     <div class="row">
                       <div class="col">
@@ -175,7 +175,6 @@
                         <div class="col" [@routerTransition]>
                           <select class="form-control" [(ngModel)]="storageSelect[i].storageCode" (change)="checkIfAlreadyExist(storageSelect[i].storageCode, i)"
                             formControlName="storageOfFormArray" aria-label="Default select example">
-                            <!-- <option value="0" selected>Kho</option> -->
                             <option *ngFor="let the of getStorage" value="{{the.storageCode}}">{{the.storageName}}
                             </option>
                           </select>
@@ -203,7 +202,7 @@
                       </ng-container>
                     </div>
                   </div>
-                </div>
+                </div> -->
                 <abp-modal-footer [cancelDisabled]="saving" [saveDisabled]="checkFormValid() || saving"
                   (onCancelClick)="Cancel()"></abp-modal-footer>
               </div>

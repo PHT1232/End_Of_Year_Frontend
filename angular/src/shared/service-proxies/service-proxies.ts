@@ -3135,6 +3135,58 @@ export class ExportImportService {
         return _observableOf<ExportImportInput>(<any>null);
     }
 
+    get(id: string | undefined): Observable<ExportImportOutputDto> {
+        let url_ = this.baseUrl + "/api/services/app/ExportImport/Get?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_: any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(<any>response_);
+                } catch (e) {
+                    return <Observable<ExportImportOutputDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ExportImportOutputDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<ExportImportOutputDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } }
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = ExportImportOutputDto.fromJS(resultData200);
+                return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ExportImportOutputDto>(<any>null);
+    }
+
     getRandomCode(): Observable<string> {
         let url_ = this.baseUrl + "/api/services/app/ExportImport/GetRandomCode";
         url_ = url_.replace(/[?&]$/, "");
@@ -3282,10 +3334,12 @@ export class ExportImportService {
         return _observableOf<CustomerDto>(<any>null);
     }
 
-    getProduct(storageId: string, skipCount: number | undefined, maxResultCount: number | undefined): Observable<ExportImportPagedResult> {
+    getProduct(storageId: string, isInsert: boolean, skipCount: number | undefined, maxResultCount: number | undefined): Observable<ExportImportPagedResult> {
         let url_ = this.baseUrl + "/api/services/app/ExportImport/GetProduct?";
         if (storageId !== undefined)
-            url_ += "StorageId=" + encodeURIComponent("" + storageId) + "&";
+            url_ += "StorageId=" + encodeURIComponent("" + storageId) + "&";      
+        if (isInsert !== undefined)
+            url_ += "isInsert=" + encodeURIComponent("" + isInsert) + "&";
         if (skipCount === null)
             throw new Error("The parameter 'skipCount' cannot be null.");
         else if (skipCount !== undefined)
@@ -5243,6 +5297,8 @@ export class ExportImportInput implements IExportImportInputDto {
     products: ExportImportProductDto[];
     storageId: string;
     storageInputId: string;
+    productLocation: string;
+    nameOfExport: string;
     totalPrice: number;
     description: string;
 
@@ -5264,7 +5320,9 @@ export class ExportImportInput implements IExportImportInputDto {
             this.customer = _data["customer"];
             this.products = _data["products"];
             this.storageId = _data["storageId"];
+            this.nameOfExport = _data["nameOfExport"];
             this.storageInputId = _data["storageInputId"];
+            this.productLocation = _data["productLocation"];
             this.totalPrice = _data["totalPrice"];
             this.description = _data["description"];
         }
@@ -5287,6 +5345,8 @@ export class ExportImportInput implements IExportImportInputDto {
         data["products"] = this.products;
         data["storageId"] = this.storageId;
         data["storageInputId"] = this.storageInputId;
+        data["nameOfExport"] = this.nameOfExport;
+        data["productLocation"] = this.productLocation;
         data["totalPrice"] = this.totalPrice;
         data["description"] = this.description;
         return data;
@@ -5300,8 +5360,11 @@ export class ExportImportOutputDto implements IExportImportOutputDto {
     orderStatus: number;
     orderType: number;
     receiveAddress: string;
+    customer: CustomerDto;
     products: ExportImportProductDto[];
     storageId: string;
+    storageInputId: string;
+    nameOfExport: string;
     totalPrice: number;
 
     constructor(data?: IExportImportOutputDto) {
@@ -5322,7 +5385,10 @@ export class ExportImportOutputDto implements IExportImportOutputDto {
             this.orderType = _data["orderType"];
             this.receiveAddress = _data["receiveAddress"];
             this.products = _data["products"];
+            this.customer = _data["customer"];
+            this.nameOfExport = _data["nameOfExport"];
             this.storageId = _data["storageId"];
+            this.storageInputId = _data["storageInputId"];
             this.totalPrice = _data["totalPrice"];
         }
     }
@@ -5344,6 +5410,10 @@ export class ExportImportOutputDto implements IExportImportOutputDto {
         data["receiveAddress"] = this.receiveAddress;
         data["products"] = this.products;
         data["storageId"] = this.storageId;
+        data["customer"] = this.customer;
+        data["nameOfExport"] = this.nameOfExport;
+        data["storageId"] = this.storageId;
+        data["storageInputId"] = this.storageInputId;
         data["totalPrice"] = this.totalPrice;
         return data;
     }
@@ -5467,6 +5537,7 @@ export class GetAllExportImportDto implements IGetAllExportImportDto {
     creationTime: Date;
     lastModifiedDate: Date;
     username: string;
+    nameOfExport: string;
 
     constructor(data?: IGetAllExportImportDto) {
         if (data) {
@@ -5490,6 +5561,7 @@ export class GetAllExportImportDto implements IGetAllExportImportDto {
             this.creationTime = _data["creationTime"];
             this.lastModifiedDate = _data["lastModifiedDate"];
             this.username = _data["username"];
+            this.nameOfExport = _data["nameOfExport"];
         }
     }
 
@@ -5513,6 +5585,7 @@ export class GetAllExportImportDto implements IGetAllExportImportDto {
         data["creationTime"] = this.creationTime;
         data["lastModifiedDate"] = this.lastModifiedDate;
         data["username"] = this.username;
+        data["nameOfExport"] = this.nameOfExport;
         return data;
     }
 
@@ -5530,6 +5603,7 @@ export class ExportImportProductDto implements IExportImportProductDto {
     quantity: number;
     price: number;
     unit: string;
+    location: string;
     finalPrice: number;
     totalPrice: number;
 
@@ -5549,6 +5623,7 @@ export class ExportImportProductDto implements IExportImportProductDto {
             this.quantity = _data["quantity"];
             this.price = _data["price"];
             this.unit = _data["unit"];
+            this.location = _data["location"];
             this.finalPrice = _data["finalPrice"];
             this.totalPrice = _data["totalPrice"];
         }
@@ -5568,6 +5643,7 @@ export class ExportImportProductDto implements IExportImportProductDto {
         data["quantity"] = this.quantity;
         data["price"] = this.price;
         data["unit"] = this.unit;
+        data["location"] = this.location;
         data["finalPrice"] = this.finalPrice;
         data["totalPrice"] = this.totalPrice;
         return data;

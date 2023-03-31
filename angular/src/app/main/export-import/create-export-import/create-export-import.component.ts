@@ -8,6 +8,7 @@ import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listin
 
 class PagedProductRequestDto extends PagedRequestDto {
   storageCode: string;
+  isInsert: boolean;
 }
 
 class InitialProductQuantity {
@@ -25,7 +26,7 @@ export class CreateExportImportComponent extends AppComponentBase implements OnI
   saving = false;
   isCollapsed = false;
   exportImport = new ExportImportInput();
-  storageCode = 'DN';
+  storageCode = '';
   keyword: string;
   getStorage: StorageProductDetail[] = [];
   orderType = 1;
@@ -53,20 +54,24 @@ export class CreateExportImportComponent extends AppComponentBase implements OnI
     super(injector);
     this._productService.getStorageProduct().subscribe(val => {
       this.getStorage = val;
+      this.storageCode = val[val.length - 1].storageCode;
     });
 
-    this._exportImport.getProduct(this.storageCode, this.skipCount, this.pageSize)
-    .subscribe((result: ExportImportPagedResult) => {
-      this.products = result.items;
-      this.showPaging(result, this.pageNumber);
-      for (let i = 0; i < this.products.length; i++) {
-        this.quantityCheck[i] = true;
-        let productQuantity = new InitialProductQuantity();
-        productQuantity.id = this.products[i].productId;
-        productQuantity.quantity = this.products[i].quantity;
-        this.initialProductQuantity.push(productQuantity);
-      }
-    });
+    setTimeout(() => {
+      this._exportImport.getProduct(this.storageCode, false,this.skipCount, this.pageSize)
+      .subscribe((result: ExportImportPagedResult) => {
+        this.products = result.items;
+        this.showPaging(result, this.pageNumber);
+        for (let i = 0; i < this.products.length; i++) {
+          this.quantityCheck[i] = true;
+          let productQuantity = new InitialProductQuantity();
+          productQuantity.id = this.products[i].productId;
+          productQuantity.quantity = this.products[i].quantity;
+          this.initialProductQuantity.push(productQuantity);
+        }
+        // this.isTableLoading = false;
+      });
+    }, 300);
     
     this._exportImport.getUser()
     .subscribe(val => {
@@ -154,7 +159,8 @@ export class CreateExportImportComponent extends AppComponentBase implements OnI
       this.customer = val;
     },
     error => {
-      this.customer = new CustomerDto();
+      this.customer.customerName = '';
+      this.customer.customerAdress = '';
     });
   }
 
@@ -216,7 +222,7 @@ export class CreateExportImportComponent extends AppComponentBase implements OnI
     this.exportImport.products = [];
     this.quantityCheck = [];
     this.skipCount = (page - 1) * this.pageSize;
-    this._exportImport.getProduct(this.storageCode, this.skipCount, this.pageSize)
+    this._exportImport.getProduct(this.storageCode, false, this.skipCount, this.pageSize)
     .subscribe((result: ExportImportPagedResult) => {
       this.products = result.items;
       this.showPaging(result, this.pageNumber);
